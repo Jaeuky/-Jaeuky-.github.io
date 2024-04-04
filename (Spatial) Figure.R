@@ -1,4 +1,4 @@
-setwd("D:/jaeuk/´ëÇĞ¿ø/¿¬±¸/2023 ¾È½ÉÁöÇÏ¼ö/R_¾È½ÉÁöÇÏ¼ö2023/Spatial analysis/R-spatial-data/nyc")
+setwd("D:/jaeuk/ëŒ€í•™ì›/ì—°êµ¬/2023 ì•ˆì‹¬ì§€í•˜ìˆ˜/R_ì•ˆì‹¬ì§€í•˜ìˆ˜2023/Spatial analysis/R-spatial-data/nyc")
 #Package
 {
   library(ggplot2)
@@ -77,7 +77,7 @@ setwd("D:/jaeuk/´ëÇĞ¿ø/¿¬±¸/2023 ¾È½ÉÁöÇÏ¼ö/R_¾È½ÉÁöÇÏ¼ö2023/Spatial analysis/R-
   library(tidyverse)
 }
 #===============================================================================
-#ÃæÃ»³²µµ ¸é ´ÜÀ§ ÇàÁ¤±¸¿ª (°üÁ¤ À§Ä¡ Æ÷ÇÔ) map
+#ì¶©ì²­ë‚¨ë„ ë©´ ë‹¨ìœ„ í–‰ì •êµ¬ì—­ (ê´€ì • ìœ„ì¹˜ í¬í•¨) map
 {
 map_cn = readOGR("LSMD_ADM_SECT_UMD_44.shp")                 
 head(map_cn)
@@ -88,52 +88,52 @@ map_cn$EMD_NM <- iconv(map_cn$EMD_NM,
                        sub = NA,
                        mark = TRUE,
                        toRaw = FALSE)
-# ÁÂÇ¥ º¯È¯
+# ì¢Œí‘œ ë³€í™˜
 to.crs <- "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs"  
 df_map_cn <- spTransform(map_cn, to.crs)
 
-# fortifyÇÔ¼ö´Â shpÆÄÀÏÀ» RÀÇ µ¥ÀÌÅÍÇÁ·¹ÀÓÀ¸·Î ¹Ù²ãÁØ´Ù(ÁÂÇ¥ º¯È¯ ÈÄ fortifyÇÏ±â) 
+# fortifyí•¨ìˆ˜ëŠ” shpíŒŒì¼ì„ Rì˜ ë°ì´í„°í”„ë ˆì„ìœ¼ë¡œ ë°”ê¿”ì¤€ë‹¤(ì¢Œí‘œ ë³€í™˜ í›„ fortifyí•˜ê¸°) 
 df_map_cn = fortify(df_map_cn)   
 head(df_map_cn)
-# ÃæÃ»³²µµ À¾¸éµ¿ Áöµµ ½Ã°¢È­
+# ì¶©ì²­ë‚¨ë„ ìë©´ë™ ì§€ë„ ì‹œê°í™”
 # ggplot(data=df_map_cn, aes(x=long, y=lat, group=group))+
 #   geom_polygon(fill='white', color='black')
 
 
-##### µ¥ÀÌÅÍ ÇÕÄ¡±â
+##### ë°ì´í„° í•©ì¹˜ê¸°
 df_map_cn1 = fortify(map_cn)
 head(map_cn)
 map_cn_info = map_cn@data
 head(map_cn_info)
 
-# 0ºÎÅÍ ½ÃÀÛÇÏ´Â ¿¬¼ÓÀûÀÎ ÀÎµ¦½º °ª ¸¸µé±â
+# 0ë¶€í„° ì‹œì‘í•˜ëŠ” ì—°ì†ì ì¸ ì¸ë±ìŠ¤ ê°’ ë§Œë“¤ê¸°
 map_cn_info[, "id"] = (1:nrow(map_cn_info)) - 1
-# EMD_NMÀ» À¾¸éµ¿À¸·Î ÀÌ¸§ ¹Ù²Ù±â
-names(map_cn_info)[2] <- c("À¾¸éµ¿")
+# EMD_NMì„ ìë©´ë™ìœ¼ë¡œ ì´ë¦„ ë°”ê¾¸ê¸°
+names(map_cn_info)[2] <- c("ìë©´ë™")
 head(map_cn_info)
-# df_map_cn$id ¹®ÀÚ¿­À» ¼ıÀÚ·Î º¯È¯
+# df_map_cn$id ë¬¸ìì—´ì„ ìˆ«ìë¡œ ë³€í™˜
 class(df_map_cn$id)
 class(map_cn_info$id)
 df_map_cn$id = as.numeric(df_map_cn$id)
 
-# sg_chung = read.csv("Ãæ³², Æò±ÕÈÄ¸®»ç(k3).csv", header=T, as.is=T, row.names = 1, na="-", fileEncoding = "CP949", encoding = "UTF-8")
-# sg_chung = read.csv("Ãæ³², Æò±ÕÈÄ¸®»ç(k4).csv", header=T, as.is=T, row.names = 1, na="-", fileEncoding = "CP949", encoding = "UTF-8")
-sg_chung = read.csv("Ãæ³², Æò±ÕÈÄ¸®»ç(k5).csv", header=T, as.is=T, row.names = 1, na="-", fileEncoding = "CP949", encoding = "UTF-8")
-# sg_chung = read.csv("Ãæ³², Æò±ÕÈÄ¸®»ç(k6).csv", header=T, as.is=T, row.names = 1, na="-", fileEncoding = "CP949", encoding = "UTF-8")
+# sg_chung = read.csv("ì¶©ë‚¨, í‰ê· í›„ë¦¬ì‚¬(k3).csv", header=T, as.is=T, row.names = 1, na="-", fileEncoding = "CP949", encoding = "UTF-8")
+# sg_chung = read.csv("ì¶©ë‚¨, í‰ê· í›„ë¦¬ì‚¬(k4).csv", header=T, as.is=T, row.names = 1, na="-", fileEncoding = "CP949", encoding = "UTF-8")
+sg_chung = read.csv("ì¶©ë‚¨, í‰ê· í›„ë¦¬ì‚¬(k5).csv", header=T, as.is=T, row.names = 1, na="-", fileEncoding = "CP949", encoding = "UTF-8")
+# sg_chung = read.csv("ì¶©ë‚¨, í‰ê· í›„ë¦¬ì‚¬(k6).csv", header=T, as.is=T, row.names = 1, na="-", fileEncoding = "CP949", encoding = "UTF-8")
 head(sg_chung)
 str(sg_chung)
 dim(sg_chung)
 
 head(map_cn_info)
 
-d <-left_join(map_cn_info,sg_chung, by='À¾¸éµ¿')
+d <-left_join(map_cn_info,sg_chung, by='ìë©´ë™')
 
 head(d)
 
 ##### left_join() 
 head(df_map_cn)
 head(d)
-c<-left_join(df_map_cn,d, by='id')  # left_join(x,y, by='')¿¡¼­ x,y À§Ä¡ ¼ø¼­¿¡ µû¶ó µ¥ÀÌÅÍ ´Ù¸£°Ô ³ª¿Â´Ù
+c<-left_join(df_map_cn,d, by='id')  # left_join(x,y, by='')ì—ì„œ x,y ìœ„ì¹˜ ìˆœì„œì— ë”°ë¼ ë°ì´í„° ë‹¤ë¥´ê²Œ ë‚˜ì˜¨ë‹¤
 #h<-merge(d,df_map_cn, by='id')
 head(c)
 
@@ -146,7 +146,7 @@ head(df_map_cn)
 #         panel.grid.major.y = element_blank(),
 #         panel.grid.minor.y = element_blank())
 
-x = read.csv("¾È½ÉÁöÇÏ¼ö(17-22, GQI, HRA)GPS,WAWQI¼öÁ¤.csv", na="-", fileEncoding = "CP949", encoding = "UTF-8")
+x = read.csv("ì•ˆì‹¬ì§€í•˜ìˆ˜(17-22, GQI, HRA)GPS,WAWQIìˆ˜ì •.csv", na="-", fileEncoding = "CP949", encoding = "UTF-8")
 str(x)
 {
   x$No. = as.numeric(x$No.)
@@ -158,7 +158,7 @@ str(x)
 }
 str(x)
 water = subset(x, x$Age == "Adult")
-water = subset(water, water$½Ãµµ=="ÃæÃ»³²µµ")
+water = subset(water, water$ì‹œë„=="ì¶©ì²­ë‚¨ë„")
 summary(water$GQI)
 table(water$GQI.rank)
 
@@ -166,7 +166,7 @@ summary(water$HQ.total)
 water = subset(water, water$Year == "2017"|water$Year == "2018"| water$Year == "2019"| water$Year == "2020"| water$Year == "2021"| water$Year == "2022")
 
 
-ggplot()+ geom_polygon(data=c, aes(x=long, y=lat, group=group), color='black', fill="white", linewidth = 1)+ # Total(ÃÑÀÎ±¸¼ö)
+ggplot()+ geom_polygon(data=c, aes(x=long, y=lat, group=group), color='black', fill="white", linewidth = 1)+ # Total(ì´ì¸êµ¬ìˆ˜)
   geom_point(data = water, aes(x= longitude, y=latitude), size = 2, line = 'black', color = "dodgerblue")+
   theme_bw()+
   ylab("latitude")+
@@ -182,9 +182,9 @@ ggplot()+ geom_polygon(data=c, aes(x=long, y=lat, group=group), color='black', f
   guides(fill=guide_legend(title=""))
 }
 #===============================================================================
-#ÃæÃ»³²µµ ¼öÁúÀÎÀÚº° ±âÁØ ÃÊ°ú ºóµµ
+#ì¶©ì²­ë‚¨ë„ ìˆ˜ì§ˆì¸ìë³„ ê¸°ì¤€ ì´ˆê³¼ ë¹ˆë„
 {
-x = read.csv("pollutant_infoÃæ³².csv")
+x = read.csv("pollutant_infoì¶©ë‚¨.csv")
 x = x[c(1:13),]
 
 x$pollutant <- factor(x$pollutant, levels = c("Total coliform","Escherichia coli","General Bacteria","Fecal coliform","NO3-N","Turbidity","As","Fe","Al","F","Mn","pH","Others"))
@@ -208,7 +208,7 @@ count = ggplot(x, aes(fill=pollutant, y=num, x=pollutant, palette = "Set1")) +
 count
 }
 {
-  x = read.csv("pollutant_infoÃæ³².csv")
+  x = read.csv("pollutant_infoì¶©ë‚¨.csv")
   x = x[-c(1:4),]
   x = x[c(1:9),]
   
@@ -233,18 +233,18 @@ count
   count
 }
 #===============================================================================
-#ÃæÃ»³²µµ º¸°£¹ı
+#ì¶©ì²­ë‚¨ë„ ë³´ê°„ë²•
 {
   map_cn = readOGR("LSMD_ADM_SECT_UMD_44.shp")
   to.crs <- "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs"  
   df_map_cn <- spTransform(map_cn, to.crs)
   head(df_map_cn)
   
-  sg = read.csv("¾È½ÉÁöÇÏ¼ö(17-22, GQI, HRA)GPS,WAWQI¼öÁ¤.csv", header=T, as.is=T, row.names = 1, na="-", fileEncoding = "CP949", encoding = "UTF-8")
+  sg = read.csv("ì•ˆì‹¬ì§€í•˜ìˆ˜(17-22, GQI, HRA)GPS,WAWQIìˆ˜ì •.csv", header=T, as.is=T, row.names = 1, na="-", fileEncoding = "CP949", encoding = "UTF-8")
   head(sg)
   # sg$Age=="Adult"// sg$Age=="Child"
-  sg_cn=subset(sg, sg$½Ãµµ=="ÃæÃ»³²µµ"& sg$Age=="Adult")
-  sg_cn=subset(sg, sg$½Ãµµ=="ÃæÃ»³²µµ"& sg$Age=="Child")
+  sg_cn=subset(sg, sg$ì‹œë„=="ì¶©ì²­ë‚¨ë„"& sg$Age=="Adult")
+  sg_cn=subset(sg, sg$ì‹œë„=="ì¶©ì²­ë‚¨ë„"& sg$Age=="Child")
   max(sg_cn$HQ.total)
   sg3 = subset(sg_cn, select=c("longitude", "latitude","NO3.N","Circumstance","Pass", "Reason.1","WAWQI.12","WAWQI.rank","B","F","General_Bacteria","As","HQ.total","Cl","pH"))
   head(sg3)
@@ -273,7 +273,7 @@ count
     r.WAWQI       <- raster(P.idw.WAWQI)
     r.m.WAWQI     <- mask(r.WAWQI, df_map_cn)
     
-    # WAWQI IDW (ÃæÃ»³²µµ)
+    # WAWQI IDW (ì¶©ì²­ë‚¨ë„)
     tm_shape(map_cn) +
       tm_borders(col="black",
                  lwd=2)+
@@ -304,7 +304,7 @@ count
     r.HQ.total.ad       <- raster(P.idw.HQ.total.ad)
     r.m.HQ.total.ad     <- mask(r.HQ.total.ad, df_map_cn)
     
-    # HQ.total.ad IDW (ÃæÃ»³²µµ)
+    # HQ.total.ad IDW (ì¶©ì²­ë‚¨ë„)
     tm_shape(map_cn) +
       tm_borders(col="black",
                  lwd=2)+
@@ -334,7 +334,7 @@ count
     r.General_Bacteria      <- raster(P.idw.General_Bacteria)
     r.m.General_Bacteria   <- mask(r.General_Bacteria, df_map_cn)
     
-    # General_Bacteria IDW (ÃæÃ»³²µµ)
+    # General_Bacteria IDW (ì¶©ì²­ë‚¨ë„)
     tm_shape(map_cn) +
       tm_borders(col="black",
                  lwd=2)+
@@ -363,7 +363,7 @@ count
     r.NO3.N      <- raster(P.idw.NO3.N)
     r.m.NO3.N    <- mask(r.NO3.N, df_map_cn)
     
-    # NO3.N IDW (ÃæÃ»³²µµ)
+    # NO3.N IDW (ì¶©ì²­ë‚¨ë„)
     tm_shape(map_cn) +
       tm_borders(col="black",
                  lwd=2)+
@@ -390,7 +390,7 @@ count
     P.idw.Cl <- gstat::idw(formula =Cl ~ 1, s_p, newdata=grd, idp=2)
     r.Cl      <- raster(P.idw.Cl)
     r.m.Cl    <- mask(r.Cl, df_map_cn)
-    # Cl IDW (ÃæÃ»³²µµ)
+    # Cl IDW (ì¶©ì²­ë‚¨ë„)
     tm_shape(map_cn) +
       tm_borders(col="black",
                  lwd=2)+
@@ -419,7 +419,7 @@ count
     r.F     <- raster(P.idw.F)
     r.m.F    <- mask(r.F, df_map_cn)
     
-    # F IDW (ÃæÃ»³²µµ)
+    # F IDW (ì¶©ì²­ë‚¨ë„)
     tm_shape(map_cn) +
       tm_borders(col="black",
                  lwd=3)+
@@ -446,7 +446,7 @@ count
     P.idw.B <- gstat::idw(formula =B ~ 1, s_p, newdata=grd, idp=2)
     r.B      <- raster(P.idw.B)
     r.m.B    <- mask(r.B, df_map_cn)
-    # B IDW (ÃæÃ»³²µµ)
+    # B IDW (ì¶©ì²­ë‚¨ë„)
     tm_shape(map_cn) +
       tm_borders(col="black",
                  lwd=2)+
@@ -475,7 +475,7 @@ count
     r.pH      <- raster(P.idw.pH)
     r.m.pH    <- mask(r.pH, df_map_cn)
     
-    # pH IDW (ÃæÃ»³²µµ)
+    # pH IDW (ì¶©ì²­ë‚¨ë„)
     tm_shape(map_cn) +
       tm_borders(col="black",
                  lwd=2)+
@@ -502,9 +502,9 @@ count
   }
 } 
 #===============================================================================
-#°ø°£ ÀÚ±â»ó°ü Global Moran °è»ê ¹× »êÁ¡µµ
+#ê³µê°„ ìê¸°ìƒê´€ Global Moran ê³„ì‚° ë° ì‚°ì ë„
 {
-  dat <- read.csv("¾È½ÉÁöÇÏ¼ö(17-22, GQI, HRA)GPS,WAWQI¼öÁ¤.csv", na="-", fileEncoding = "CP949", encoding = "UTF-8")
+  dat <- read.csv("ì•ˆì‹¬ì§€í•˜ìˆ˜(17-22, GQI, HRA)GPS,WAWQIìˆ˜ì •.csv", na="-", fileEncoding = "CP949", encoding = "UTF-8")
   {
     dat$No. = as.numeric(dat$No.)
     dat$Year = as.numeric(dat$Year)
@@ -513,76 +513,76 @@ count
     dat$GQI = as.numeric(dat$GQI)
     dat$General_Bacteria = as.numeric(dat$General_Bacteria)
   }
-  dat = subset(dat, dat$½Ãµµ == "ÃæÃ»³²µµ")
+  dat = subset(dat, dat$ì‹œë„ == "ì¶©ì²­ë‚¨ë„")
   ad = subset(dat, dat$Age == "Adult")
   ch = subset(dat, dat$Age == "Child")
   
-  #ÀÏ´Ü 0°ªµéÀ» ´Ù ¼öÁ¤ => °ø°£ºĞ¼®À» À§ÇØ¼± 0°ª X
+  #ì¼ë‹¨ 0ê°’ë“¤ì„ ë‹¤ ìˆ˜ì • => ê³µê°„ë¶„ì„ì„ ìœ„í•´ì„  0ê°’ X
   ad[c(17:56)][ad[c(17:56)]==0]<-0.000001
   ch[c(17:56)][ch[c(17:56)]==0]<-0.000001
   str(ad)
-  ad.net = ad[complete.cases(ad$longitude), ] #NA´Â Á¦°Å! (3°³ Çà Á¦°Å)
-  ch.net = ch[complete.cases(ch$longitude), ] #NA´Â Á¦°Å! (3°³ Çà Á¦°Å)
+  ad.net = ad[complete.cases(ad$longitude), ] #NAëŠ” ì œê±°! (3ê°œ í–‰ ì œê±°)
+  ch.net = ch[complete.cases(ch$longitude), ] #NAëŠ” ì œê±°! (3ê°œ í–‰ ì œê±°)
   
-  #µ¥ÀÌÅÍ Ç¥ÁØÈ­ (xÃà º¯¼ö= (¼öÁúÀÎÀÚ ³óµµ-Æò±Õ)/Ç¥ÁØÆíÂ÷) Áï z-score »ç¿ë -> Æò±ÕÀ» 0À¸·Î Ç¥ÁØÆíÂ÷¸¦ 1·Î ¸¸µç´Ù
+  #ë°ì´í„° í‘œì¤€í™” (xì¶• ë³€ìˆ˜= (ìˆ˜ì§ˆì¸ì ë†ë„-í‰ê· )/í‘œì¤€í¸ì°¨) ì¦‰ z-score ì‚¬ìš© -> í‰ê· ì„ 0ìœ¼ë¡œ í‘œì¤€í¸ì°¨ë¥¼ 1ë¡œ ë§Œë“ ë‹¤
   #Adult
   ad.net.s = scale(ad.net[c(17,19,20,22,23:56)])
   ad.net.s = as.data.frame(ad.net.s)
   ad.net = cbind(ad.net[c(1:11)], ad.net.s)
-  summary(ad.net$General_Bacteria) #Ç¥ÁØÈ­°¡ Àß µÆ³ª È®ÀÎ
-  summary(ad.net$HQ.total) #Ç¥ÁØÈ­°¡ Àß µÆ³ª È®ÀÎ
+  summary(ad.net$General_Bacteria) #í‘œì¤€í™”ê°€ ì˜ ëë‚˜ í™•ì¸
+  summary(ad.net$HQ.total) #í‘œì¤€í™”ê°€ ì˜ ëë‚˜ í™•ì¸
   #Child
   ch.net.s = scale(ch.net[c(17,19,20,22,23:56)])
   ch.net.s = as.data.frame(ch.net.s)
   ch.net = cbind(ch.net[c(1:11)], ch.net.s)
-  summary(ch.net$General_Bacteria) #Ç¥ÁØÈ­°¡ Àß µÆ³ª È®ÀÎ
-  summary(ch.net$HQ.total) #Ç¥ÁØÈ­°¡ Àß µÆ³ª È®ÀÎ
+  summary(ch.net$General_Bacteria) #í‘œì¤€í™”ê°€ ì˜ ëë‚˜ í™•ì¸
+  summary(ch.net$HQ.total) #í‘œì¤€í™”ê°€ ì˜ ëë‚˜ í™•ì¸
   
   #Good
   head(ad.net)
   head(ch.net)
   
-  #ÀÌ¿ô °ü°è ¸®½ºÆ® »ı¼ºÇÏ±â
+  #ì´ì›ƒ ê´€ê³„ ë¦¬ìŠ¤íŠ¸ ìƒì„±í•˜ê¸°
   coords.ad <- cbind(ad.net$longitude, ad.net$latitude)
   coords.ch <- cbind(ch.net$longitude, ch.net$latitude)
-  nb.ad <- knn2nb(knearneigh(coords.ad, k = 20)) # k-ÃÖ±ÙÁ¢ ÀÌ¿ô ¹æ½ÄÀ¸·Î ÀÌ¿ô °ü°è ¸®½ºÆ® »ı¼º => °í¹Ğµµ ºÒ±Õµî ºĞÆ÷ µ¥ÀÌÅÍ
-  nb.ch <- knn2nb(knearneigh(coords.ch, k = 20)) # k-ÃÖ±ÙÁ¢ ÀÌ¿ô ¹æ½ÄÀ¸·Î ÀÌ¿ô °ü°è ¸®½ºÆ® »ı¼º => °í¹Ğµµ ºÒ±Õµî ºĞÆ÷ µ¥ÀÌÅÍ
+  nb.ad <- knn2nb(knearneigh(coords.ad, k = 20)) # k-ìµœê·¼ì ‘ ì´ì›ƒ ë°©ì‹ìœ¼ë¡œ ì´ì›ƒ ê´€ê³„ ë¦¬ìŠ¤íŠ¸ ìƒì„± => ê³ ë°€ë„ ë¶ˆê· ë“± ë¶„í¬ ë°ì´í„°
+  nb.ch <- knn2nb(knearneigh(coords.ch, k = 20)) # k-ìµœê·¼ì ‘ ì´ì›ƒ ë°©ì‹ìœ¼ë¡œ ì´ì›ƒ ê´€ê³„ ë¦¬ìŠ¤íŠ¸ ìƒì„± => ê³ ë°€ë„ ë¶ˆê· ë“± ë¶„í¬ ë°ì´í„°
   
-  #°ø°£ °¡ÁßÄ¡ Çà·Ä »ı¼ºÇÏ±â
+  #ê³µê°„ ê°€ì¤‘ì¹˜ í–‰ë ¬ ìƒì„±í•˜ê¸°
   # dmat <- as.matrix (dist (cbind (ad.net$longitude, ad.net$latitude)))
   w.ad <- nb2listw (nb.ad, style = "minmax")
   w.ch <- nb2listw (nb.ch, style = "minmax")
   
 #=================================================  
-  #moran¡¯s index °è»êÇÏ±â
+  #moranâ€™s index ê³„ì‚°í•˜ê¸°
 
   #NO3-N
   moran.test(ad.net$NO3.N, w.ad)
   mt <- moran.test(ad.net$NO3.N, w.ad)
-  z_score <- (mt$estimate["Moran I statistic"] - mt$estimate["Expectation"]) / sqrt(mt$estimate["Variance"]) # z-score °è»ê½Ä Àû¿ëÇÏ±â
-  print(z_score) # z-score °ª Ãâ·ÂÇÏ±â
+  z_score <- (mt$estimate["Moran I statistic"] - mt$estimate["Expectation"]) / sqrt(mt$estimate["Variance"]) # z-score ê³„ì‚°ì‹ ì ìš©í•˜ê¸°
+  print(z_score) # z-score ê°’ ì¶œë ¥í•˜ê¸°
   
   #NO3.N
-  x = ad.net$NO3.N #¼öÁúÀÎÀÚ ¼±Á¤
-  wx <- lag.listw(w.ad, x) # °ø°£Àû Áö¿¬°ª 
-  xwx.lm <- lm(wx ~ x) # È¸±Í¸ğÇü 
-  infl.xwx <- influence.measures(xwx.lm) # ¿µÇâ·Â ÃøÁ¤ 
-  is.inf <- which(apply(infl.xwx$is.inf, 1, any)) # ¿µÇâ·ÂÀÌ Å« Á¡µéÀÇ ÀÎµ¦½º 
-  labels <- as.character(ad.net$id) # ·¹ÀÌºí
+  x = ad.net$NO3.N #ìˆ˜ì§ˆì¸ì ì„ ì •
+  wx <- lag.listw(w.ad, x) # ê³µê°„ì  ì§€ì—°ê°’ 
+  xwx.lm <- lm(wx ~ x) # íšŒê·€ëª¨í˜• 
+  infl.xwx <- influence.measures(xwx.lm) # ì˜í–¥ë ¥ ì¸¡ì • 
+  is.inf <- which(apply(infl.xwx$is.inf, 1, any)) # ì˜í–¥ë ¥ì´ í° ì ë“¤ì˜ ì¸ë±ìŠ¤ 
+  labels <- as.character(ad.net$id) # ë ˆì´ë¸”
   
-  #moran¡¯s index »êÁ¡µµ ±×·¡ÇÁ ±×¸®±â
-  NO3.N.moran = ggplot(data.frame(x = x, wx = wx), aes(x = x, y = wx)) + # µ¥ÀÌÅÍ ÇÁ·¹ÀÓ°ú ¸ÅÇÎ ¼³Á¤ 
+  #moranâ€™s index ì‚°ì ë„ ê·¸ë˜í”„ ê·¸ë¦¬ê¸°
+  NO3.N.moran = ggplot(data.frame(x = x, wx = wx), aes(x = x, y = wx)) + # ë°ì´í„° í”„ë ˆì„ê³¼ ë§¤í•‘ ì„¤ì • 
     geom_point(aes(color = interaction(cut(x, c(-Inf, mean(x), Inf)), cut(wx, c(-Inf, mean(wx), Inf)))),size = 2.5) +
-    scale_color_manual(values = c("yellow2", "dodgerblue3", "springgreen3", "red2")) + # Á¡ÀÇ »ö»óÀ» ¼öµ¿À¸·Î ÁöÁ¤
-    geom_smooth(method = "lm", se = FALSE) + # È¸±Í¼± Ç¥½Ã 
-    geom_hline(yintercept = mean(wx), lty = 2) + # y=x ¼± Ç¥½Ã 
-    geom_vline(xintercept = mean(x), lty = 2) + # y=x ¼± Ç¥½Ã 
-    # geom_point(data = data.frame(x = x[is.inf], wx = wx[is.inf]), shape = 9) + # ¿µÇâ·ÂÀÌ Å« Á¡µé Ç¥½Ã 
-    # geom_text(data = data.frame(x = x[is.inf], wx = wx[is.inf], labels = labels[is.inf]), aes(label = labels), vjust = -0.5) + # ¿µÇâ·ÂÀÌ Å« Á¡µé¿¡ ·¹ÀÌºí ºÙÀÌ±â 
-    labs(title = expression(paste("Moran¡¯s index scatterplot (", NO[3]~"-"~N, ")")),
+    scale_color_manual(values = c("yellow2", "dodgerblue3", "springgreen3", "red2")) + # ì ì˜ ìƒ‰ìƒì„ ìˆ˜ë™ìœ¼ë¡œ ì§€ì •
+    geom_smooth(method = "lm", se = FALSE) + # íšŒê·€ì„  í‘œì‹œ 
+    geom_hline(yintercept = mean(wx), lty = 2) + # y=x ì„  í‘œì‹œ 
+    geom_vline(xintercept = mean(x), lty = 2) + # y=x ì„  í‘œì‹œ 
+    # geom_point(data = data.frame(x = x[is.inf], wx = wx[is.inf]), shape = 9) + # ì˜í–¥ë ¥ì´ í° ì ë“¤ í‘œì‹œ 
+    # geom_text(data = data.frame(x = x[is.inf], wx = wx[is.inf], labels = labels[is.inf]), aes(label = labels), vjust = -0.5) + # ì˜í–¥ë ¥ì´ í° ì ë“¤ì— ë ˆì´ë¸” ë¶™ì´ê¸° 
+    labs(title = expression(paste("Moranâ€™s index scatterplot (", NO[3]~"-"~N, ")")),
          x = expression(paste("Standardized ", NO[3]~"-"~N)),
-         y = expression(paste("Spatially lagged ", NO[3]~"-"~N))) + # yÃà ·¹ÀÌºí ¼³Á¤ 
-    theme_bw() + # Å×¸¶ ¼³Á¤ 
+         y = expression(paste("Spatially lagged ", NO[3]~"-"~N))) + # yì¶• ë ˆì´ë¸” ì„¤ì • 
+    theme_bw() + # í…Œë§ˆ ì„¤ì • 
     theme(panel.grid= element_blank(),
           axis.title = element_text(size = 20),
           axis.text = element_text(size = 20),
@@ -598,30 +598,30 @@ count
   #Turbidity
   moran.test(ad.net$Turbidity, w.ad)
   mt <- moran.test(ad.net$Turbidity, w.ad)
-  z_score <- (mt$estimate["Moran I statistic"] - mt$estimate["Expectation"]) / sqrt(mt$estimate["Variance"]) # z-score °è»ê½Ä Àû¿ëÇÏ±â
-  print(z_score) # z-score °ª Ãâ·ÂÇÏ±â
+  z_score <- (mt$estimate["Moran I statistic"] - mt$estimate["Expectation"]) / sqrt(mt$estimate["Variance"]) # z-score ê³„ì‚°ì‹ ì ìš©í•˜ê¸°
+  print(z_score) # z-score ê°’ ì¶œë ¥í•˜ê¸°
   
   #Turbidity
-  x = ad.net$Turbidity #¼öÁúÀÎÀÚ ¼±Á¤
-  wx <- lag.listw(w.ad, x) # °ø°£Àû Áö¿¬°ª 
-  xwx.lm <- lm(wx ~ x) # È¸±Í¸ğÇü 
-  infl.xwx <- influence.measures(xwx.lm) # ¿µÇâ·Â ÃøÁ¤ 
-  is.inf <- which(apply(infl.xwx$is.inf, 1, any)) # ¿µÇâ·ÂÀÌ Å« Á¡µéÀÇ ÀÎµ¦½º 
-  labels <- as.character(ad.net$id) # ·¹ÀÌºí
+  x = ad.net$Turbidity #ìˆ˜ì§ˆì¸ì ì„ ì •
+  wx <- lag.listw(w.ad, x) # ê³µê°„ì  ì§€ì—°ê°’ 
+  xwx.lm <- lm(wx ~ x) # íšŒê·€ëª¨í˜• 
+  infl.xwx <- influence.measures(xwx.lm) # ì˜í–¥ë ¥ ì¸¡ì • 
+  is.inf <- which(apply(infl.xwx$is.inf, 1, any)) # ì˜í–¥ë ¥ì´ í° ì ë“¤ì˜ ì¸ë±ìŠ¤ 
+  labels <- as.character(ad.net$id) # ë ˆì´ë¸”
   
-  #moran¡¯s index »êÁ¡µµ ±×·¡ÇÁ ±×¸®±â
-  Turbidity.moran = ggplot(data.frame(x = x, wx = wx), aes(x = x, y = wx)) + # µ¥ÀÌÅÍ ÇÁ·¹ÀÓ°ú ¸ÅÇÎ ¼³Á¤ 
+  #moranâ€™s index ì‚°ì ë„ ê·¸ë˜í”„ ê·¸ë¦¬ê¸°
+  Turbidity.moran = ggplot(data.frame(x = x, wx = wx), aes(x = x, y = wx)) + # ë°ì´í„° í”„ë ˆì„ê³¼ ë§¤í•‘ ì„¤ì • 
     geom_point(aes(color = interaction(cut(x, c(-Inf, mean(x), Inf)), cut(wx, c(-Inf, mean(wx), Inf)))),size = 2.5) +
-    scale_color_manual(values = c("yellow2", "dodgerblue3", "springgreen3", "red2")) + # Á¡ÀÇ »ö»óÀ» ¼öµ¿À¸·Î ÁöÁ¤
-    geom_smooth(method = "lm", se = FALSE) + # È¸±Í¼± Ç¥½Ã 
-    geom_hline(yintercept = mean(wx), lty = 2) + # y=x ¼± Ç¥½Ã 
-    geom_vline(xintercept = mean(x), lty = 2) + # y=x ¼± Ç¥½Ã 
-    # geom_point(data = data.frame(x = x[is.inf], wx = wx[is.inf]), shape = 9) + # ¿µÇâ·ÂÀÌ Å« Á¡µé Ç¥½Ã 
-    # geom_text(data = data.frame(x = x[is.inf], wx = wx[is.inf], labels = labels[is.inf]), aes(label = labels), vjust = -0.5) + # ¿µÇâ·ÂÀÌ Å« Á¡µé¿¡ ·¹ÀÌºí ºÙÀÌ±â 
-    labs(title = "Moran¡¯s index scatterplot (Turbidity)", # Á¦¸ñ ¼³Á¤ 
-         x = "Standardized Turbidity", # xÃà ·¹ÀÌºí ¼³Á¤ 
-         y = "Spatially lagged Turbidity") + # yÃà ·¹ÀÌºí ¼³Á¤ 
-    theme_bw() + # Å×¸¶ ¼³Á¤ 
+    scale_color_manual(values = c("yellow2", "dodgerblue3", "springgreen3", "red2")) + # ì ì˜ ìƒ‰ìƒì„ ìˆ˜ë™ìœ¼ë¡œ ì§€ì •
+    geom_smooth(method = "lm", se = FALSE) + # íšŒê·€ì„  í‘œì‹œ 
+    geom_hline(yintercept = mean(wx), lty = 2) + # y=x ì„  í‘œì‹œ 
+    geom_vline(xintercept = mean(x), lty = 2) + # y=x ì„  í‘œì‹œ 
+    # geom_point(data = data.frame(x = x[is.inf], wx = wx[is.inf]), shape = 9) + # ì˜í–¥ë ¥ì´ í° ì ë“¤ í‘œì‹œ 
+    # geom_text(data = data.frame(x = x[is.inf], wx = wx[is.inf], labels = labels[is.inf]), aes(label = labels), vjust = -0.5) + # ì˜í–¥ë ¥ì´ í° ì ë“¤ì— ë ˆì´ë¸” ë¶™ì´ê¸° 
+    labs(title = "Moranâ€™s index scatterplot (Turbidity)", # ì œëª© ì„¤ì • 
+         x = "Standardized Turbidity", # xì¶• ë ˆì´ë¸” ì„¤ì • 
+         y = "Spatially lagged Turbidity") + # yì¶• ë ˆì´ë¸” ì„¤ì • 
+    theme_bw() + # í…Œë§ˆ ì„¤ì • 
     theme(panel.grid= element_blank(),
           axis.title = element_text(size = 20),
           axis.text = element_text(size = 20),
@@ -637,30 +637,30 @@ count
   #As
   moran.test(ad.net$As, w.ad)
   mt <- moran.test(ad.net$As, w.ad)
-  z_score <- (mt$estimate["Moran I statistic"] - mt$estimate["Expectation"]) / sqrt(mt$estimate["Variance"]) # z-score °è»ê½Ä Àû¿ëÇÏ±â
-  print(z_score) # z-score °ª Ãâ·ÂÇÏ±â
+  z_score <- (mt$estimate["Moran I statistic"] - mt$estimate["Expectation"]) / sqrt(mt$estimate["Variance"]) # z-score ê³„ì‚°ì‹ ì ìš©í•˜ê¸°
+  print(z_score) # z-score ê°’ ì¶œë ¥í•˜ê¸°
   
   #As
-  x = ad.net$As #¼öÁúÀÎÀÚ ¼±Á¤
-  wx <- lag.listw(w.ad, x) # °ø°£Àû Áö¿¬°ª 
-  xwx.lm <- lm(wx ~ x) # È¸±Í¸ğÇü 
-  infl.xwx <- influence.measures(xwx.lm) # ¿µÇâ·Â ÃøÁ¤ 
-  is.inf <- which(apply(infl.xwx$is.inf, 1, any)) # ¿µÇâ·ÂÀÌ Å« Á¡µéÀÇ ÀÎµ¦½º 
-  labels <- as.character(ad.net$id) # ·¹ÀÌºí
+  x = ad.net$As #ìˆ˜ì§ˆì¸ì ì„ ì •
+  wx <- lag.listw(w.ad, x) # ê³µê°„ì  ì§€ì—°ê°’ 
+  xwx.lm <- lm(wx ~ x) # íšŒê·€ëª¨í˜• 
+  infl.xwx <- influence.measures(xwx.lm) # ì˜í–¥ë ¥ ì¸¡ì • 
+  is.inf <- which(apply(infl.xwx$is.inf, 1, any)) # ì˜í–¥ë ¥ì´ í° ì ë“¤ì˜ ì¸ë±ìŠ¤ 
+  labels <- as.character(ad.net$id) # ë ˆì´ë¸”
   
-  #moran¡¯s index »êÁ¡µµ ±×·¡ÇÁ ±×¸®±â
-  As.moran = ggplot(data.frame(x = x, wx = wx), aes(x = x, y = wx)) + # µ¥ÀÌÅÍ ÇÁ·¹ÀÓ°ú ¸ÅÇÎ ¼³Á¤ 
+  #moranâ€™s index ì‚°ì ë„ ê·¸ë˜í”„ ê·¸ë¦¬ê¸°
+  As.moran = ggplot(data.frame(x = x, wx = wx), aes(x = x, y = wx)) + # ë°ì´í„° í”„ë ˆì„ê³¼ ë§¤í•‘ ì„¤ì • 
     geom_point(aes(color = interaction(cut(x, c(-Inf, mean(x), Inf)), cut(wx, c(-Inf, mean(wx), Inf)))),size = 2.5) +
-    scale_color_manual(values = c("yellow2", "dodgerblue3", "springgreen3", "red2")) + # Á¡ÀÇ »ö»óÀ» ¼öµ¿À¸·Î ÁöÁ¤
-    geom_smooth(method = "lm", se = FALSE) + # È¸±Í¼± Ç¥½Ã 
-    geom_hline(yintercept = mean(wx), lty = 2) + # y=x ¼± Ç¥½Ã 
-    geom_vline(xintercept = mean(x), lty = 2) + # y=x ¼± Ç¥½Ã 
-    # geom_point(data = data.frame(x = x[is.inf], wx = wx[is.inf]), shape = 9) + # ¿µÇâ·ÂÀÌ Å« Á¡µé Ç¥½Ã 
-    # geom_text(data = data.frame(x = x[is.inf], wx = wx[is.inf], labels = labels[is.inf]), aes(label = labels), vjust = -0.5) + # ¿µÇâ·ÂÀÌ Å« Á¡µé¿¡ ·¹ÀÌºí ºÙÀÌ±â 
-    labs(title = "Moran¡¯s index scatterplot (As)", # Á¦¸ñ ¼³Á¤ 
-         x = "Standardized As", # xÃà ·¹ÀÌºí ¼³Á¤ 
-         y = "Spatially lagged As") + # yÃà ·¹ÀÌºí ¼³Á¤ 
-    theme_bw() + # Å×¸¶ ¼³Á¤ 
+    scale_color_manual(values = c("yellow2", "dodgerblue3", "springgreen3", "red2")) + # ì ì˜ ìƒ‰ìƒì„ ìˆ˜ë™ìœ¼ë¡œ ì§€ì •
+    geom_smooth(method = "lm", se = FALSE) + # íšŒê·€ì„  í‘œì‹œ 
+    geom_hline(yintercept = mean(wx), lty = 2) + # y=x ì„  í‘œì‹œ 
+    geom_vline(xintercept = mean(x), lty = 2) + # y=x ì„  í‘œì‹œ 
+    # geom_point(data = data.frame(x = x[is.inf], wx = wx[is.inf]), shape = 9) + # ì˜í–¥ë ¥ì´ í° ì ë“¤ í‘œì‹œ 
+    # geom_text(data = data.frame(x = x[is.inf], wx = wx[is.inf], labels = labels[is.inf]), aes(label = labels), vjust = -0.5) + # ì˜í–¥ë ¥ì´ í° ì ë“¤ì— ë ˆì´ë¸” ë¶™ì´ê¸° 
+    labs(title = "Moranâ€™s index scatterplot (As)", # ì œëª© ì„¤ì • 
+         x = "Standardized As", # xì¶• ë ˆì´ë¸” ì„¤ì • 
+         y = "Spatially lagged As") + # yì¶• ë ˆì´ë¸” ì„¤ì • 
+    theme_bw() + # í…Œë§ˆ ì„¤ì • 
     theme(panel.grid= element_blank(),
           axis.title = element_text(size = 20),
           axis.text = element_text(size = 20),
@@ -675,30 +675,30 @@ count
   #Fe
   moran.test(ad.net$Fe, w.ad)
   mt <- moran.test(ad.net$Fe, w.ad)
-  z_score <- (mt$estimate["Moran I statistic"] - mt$estimate["Expectation"]) / sqrt(mt$estimate["Variance"]) # z-score °è»ê½Ä Àû¿ëÇÏ±â
-  print(z_score) # z-score °ª Ãâ·ÂÇÏ±â
+  z_score <- (mt$estimate["Moran I statistic"] - mt$estimate["Expectation"]) / sqrt(mt$estimate["Variance"]) # z-score ê³„ì‚°ì‹ ì ìš©í•˜ê¸°
+  print(z_score) # z-score ê°’ ì¶œë ¥í•˜ê¸°
   
   #Fe
-  x = ad.net$Fe #¼öÁúÀÎÀÚ ¼±Á¤
-  wx <- lag.listw(w.ad, x) # °ø°£Àû Áö¿¬°ª 
-  xwx.lm <- lm(wx ~ x) # È¸±Í¸ğÇü 
-  infl.xwx <- influence.measures(xwx.lm) # ¿µÇâ·Â ÃøÁ¤ 
-  is.inf <- which(apply(infl.xwx$is.inf, 1, any)) # ¿µÇâ·ÂÀÌ Å« Á¡µéÀÇ ÀÎµ¦½º 
-  labels <- as.character(ad.net$id) # ·¹ÀÌºí
+  x = ad.net$Fe #ìˆ˜ì§ˆì¸ì ì„ ì •
+  wx <- lag.listw(w.ad, x) # ê³µê°„ì  ì§€ì—°ê°’ 
+  xwx.lm <- lm(wx ~ x) # íšŒê·€ëª¨í˜• 
+  infl.xwx <- influence.measures(xwx.lm) # ì˜í–¥ë ¥ ì¸¡ì • 
+  is.inf <- which(apply(infl.xwx$is.inf, 1, any)) # ì˜í–¥ë ¥ì´ í° ì ë“¤ì˜ ì¸ë±ìŠ¤ 
+  labels <- as.character(ad.net$id) # ë ˆì´ë¸”
   
-  #moran¡¯s index »êÁ¡µµ ±×·¡ÇÁ ±×¸®±â
-  Fe.moran = ggplot(data.frame(x = x, wx = wx), aes(x = x, y = wx)) + # µ¥ÀÌÅÍ ÇÁ·¹ÀÓ°ú ¸ÅÇÎ ¼³Á¤ 
+  #moranâ€™s index ì‚°ì ë„ ê·¸ë˜í”„ ê·¸ë¦¬ê¸°
+  Fe.moran = ggplot(data.frame(x = x, wx = wx), aes(x = x, y = wx)) + # ë°ì´í„° í”„ë ˆì„ê³¼ ë§¤í•‘ ì„¤ì • 
     geom_point(aes(color = interaction(cut(x, c(-Inf, mean(x), Inf)), cut(wx, c(-Inf, mean(wx), Inf)))),size = 2.5) +
-    scale_color_manual(values = c("yellow2", "dodgerblue3", "springgreen3", "red2")) + # Á¡ÀÇ »ö»óÀ» ¼öµ¿À¸·Î ÁöÁ¤
-    geom_smooth(method = "lm", se = FALSE) + # È¸±Í¼± Ç¥½Ã 
-    geom_hline(yintercept = mean(wx), lty = 2) + # y=x ¼± Ç¥½Ã 
-    geom_vline(xintercept = mean(x), lty = 2) + # y=x ¼± Ç¥½Ã 
-    # geom_point(data = data.frame(x = x[is.inf], wx = wx[is.inf]), shape = 9) + # ¿µÇâ·ÂÀÌ Å« Á¡µé Ç¥½Ã 
-    # geom_text(data = data.frame(x = x[is.inf], wx = wx[is.inf], labels = labels[is.inf]), aes(label = labels), vjust = -0.5) + # ¿µÇâ·ÂÀÌ Å« Á¡µé¿¡ ·¹ÀÌºí ºÙÀÌ±â 
-    labs(title = "Moran¡¯s index scatterplot (Fe)", # Á¦¸ñ ¼³Á¤ 
-         x = "Standardized Fe", # xÃà ·¹ÀÌºí ¼³Á¤ 
-         y = "Spatially lagged Fe") + # yÃà ·¹ÀÌºí ¼³Á¤ 
-    theme_bw() + # Å×¸¶ ¼³Á¤ 
+    scale_color_manual(values = c("yellow2", "dodgerblue3", "springgreen3", "red2")) + # ì ì˜ ìƒ‰ìƒì„ ìˆ˜ë™ìœ¼ë¡œ ì§€ì •
+    geom_smooth(method = "lm", se = FALSE) + # íšŒê·€ì„  í‘œì‹œ 
+    geom_hline(yintercept = mean(wx), lty = 2) + # y=x ì„  í‘œì‹œ 
+    geom_vline(xintercept = mean(x), lty = 2) + # y=x ì„  í‘œì‹œ 
+    # geom_point(data = data.frame(x = x[is.inf], wx = wx[is.inf]), shape = 9) + # ì˜í–¥ë ¥ì´ í° ì ë“¤ í‘œì‹œ 
+    # geom_text(data = data.frame(x = x[is.inf], wx = wx[is.inf], labels = labels[is.inf]), aes(label = labels), vjust = -0.5) + # ì˜í–¥ë ¥ì´ í° ì ë“¤ì— ë ˆì´ë¸” ë¶™ì´ê¸° 
+    labs(title = "Moranâ€™s index scatterplot (Fe)", # ì œëª© ì„¤ì • 
+         x = "Standardized Fe", # xì¶• ë ˆì´ë¸” ì„¤ì • 
+         y = "Spatially lagged Fe") + # yì¶• ë ˆì´ë¸” ì„¤ì • 
+    theme_bw() + # í…Œë§ˆ ì„¤ì • 
     theme(panel.grid= element_blank(),
           axis.title = element_text(size = 20),
           axis.text = element_text(size = 20),
@@ -713,30 +713,30 @@ count
   #Al
   moran.test(ad.net$Al, w.ad)
   mt <- moran.test(ad.net$Al, w.ad)
-  z_score <- (mt$estimate["Moran I statistic"] - mt$estimate["Expectation"]) / sqrt(mt$estimate["Variance"]) # z-score °è»ê½Ä Àû¿ëÇÏ±â
-  print(z_score) # z-score °ª Ãâ·ÂÇÏ±â
+  z_score <- (mt$estimate["Moran I statistic"] - mt$estimate["Expectation"]) / sqrt(mt$estimate["Variance"]) # z-score ê³„ì‚°ì‹ ì ìš©í•˜ê¸°
+  print(z_score) # z-score ê°’ ì¶œë ¥í•˜ê¸°
   
   #Al
-  x = ad.net$Al #¼öÁúÀÎÀÚ ¼±Á¤
-  wx <- lag.listw(w.ad, x) # °ø°£Àû Áö¿¬°ª 
-  xwx.lm <- lm(wx ~ x) # È¸±Í¸ğÇü 
-  infl.xwx <- influence.measures(xwx.lm) # ¿µÇâ·Â ÃøÁ¤ 
-  is.inf <- which(apply(infl.xwx$is.inf, 1, any)) # ¿µÇâ·ÂÀÌ Å« Á¡µéÀÇ ÀÎµ¦½º 
-  labels <- as.character(ad.net$id) # ·¹ÀÌºí
+  x = ad.net$Al #ìˆ˜ì§ˆì¸ì ì„ ì •
+  wx <- lag.listw(w.ad, x) # ê³µê°„ì  ì§€ì—°ê°’ 
+  xwx.lm <- lm(wx ~ x) # íšŒê·€ëª¨í˜• 
+  infl.xwx <- influence.measures(xwx.lm) # ì˜í–¥ë ¥ ì¸¡ì • 
+  is.inf <- which(apply(infl.xwx$is.inf, 1, any)) # ì˜í–¥ë ¥ì´ í° ì ë“¤ì˜ ì¸ë±ìŠ¤ 
+  labels <- as.character(ad.net$id) # ë ˆì´ë¸”
   
-  #moran¡¯s index »êÁ¡µµ ±×·¡ÇÁ ±×¸®±â
-  Al.moran = ggplot(data.frame(x = x, wx = wx), aes(x = x, y = wx)) + # µ¥ÀÌÅÍ ÇÁ·¹ÀÓ°ú ¸ÅÇÎ ¼³Á¤ 
+  #moranâ€™s index ì‚°ì ë„ ê·¸ë˜í”„ ê·¸ë¦¬ê¸°
+  Al.moran = ggplot(data.frame(x = x, wx = wx), aes(x = x, y = wx)) + # ë°ì´í„° í”„ë ˆì„ê³¼ ë§¤í•‘ ì„¤ì • 
     geom_point(aes(color = interaction(cut(x, c(-Inf, mean(x), Inf)), cut(wx, c(-Inf, mean(wx), Inf)))),size = 2.5) +
-    scale_color_manual(values = c("yellow2", "dodgerblue3", "springgreen3", "red2")) + # Á¡ÀÇ »ö»óÀ» ¼öµ¿À¸·Î ÁöÁ¤
-    geom_smooth(method = "lm", se = FALSE) + # È¸±Í¼± Ç¥½Ã 
-    geom_hline(yintercept = mean(wx), lty = 2) + # y=x ¼± Ç¥½Ã 
-    geom_vline(xintercept = mean(x), lty = 2) + # y=x ¼± Ç¥½Ã 
-    # geom_point(data = data.frame(x = x[is.inf], wx = wx[is.inf]), shape = 9) + # ¿µÇâ·ÂÀÌ Å« Á¡µé Ç¥½Ã 
-    # geom_text(data = data.frame(x = x[is.inf], wx = wx[is.inf], labels = labels[is.inf]), aes(label = labels), vjust = -0.5) + # ¿µÇâ·ÂÀÌ Å« Á¡µé¿¡ ·¹ÀÌºí ºÙÀÌ±â 
-    labs(title = "Moran¡¯s index scatterplot (Al)", # Á¦¸ñ ¼³Á¤ 
-         x = "Standardized Al", # xÃà ·¹ÀÌºí ¼³Á¤ 
-         y = "Spatially lagged Al") + # yÃà ·¹ÀÌºí ¼³Á¤ 
-    theme_bw() + # Å×¸¶ ¼³Á¤ 
+    scale_color_manual(values = c("yellow2", "dodgerblue3", "springgreen3", "red2")) + # ì ì˜ ìƒ‰ìƒì„ ìˆ˜ë™ìœ¼ë¡œ ì§€ì •
+    geom_smooth(method = "lm", se = FALSE) + # íšŒê·€ì„  í‘œì‹œ 
+    geom_hline(yintercept = mean(wx), lty = 2) + # y=x ì„  í‘œì‹œ 
+    geom_vline(xintercept = mean(x), lty = 2) + # y=x ì„  í‘œì‹œ 
+    # geom_point(data = data.frame(x = x[is.inf], wx = wx[is.inf]), shape = 9) + # ì˜í–¥ë ¥ì´ í° ì ë“¤ í‘œì‹œ 
+    # geom_text(data = data.frame(x = x[is.inf], wx = wx[is.inf], labels = labels[is.inf]), aes(label = labels), vjust = -0.5) + # ì˜í–¥ë ¥ì´ í° ì ë“¤ì— ë ˆì´ë¸” ë¶™ì´ê¸° 
+    labs(title = "Moranâ€™s index scatterplot (Al)", # ì œëª© ì„¤ì • 
+         x = "Standardized Al", # xì¶• ë ˆì´ë¸” ì„¤ì • 
+         y = "Spatially lagged Al") + # yì¶• ë ˆì´ë¸” ì„¤ì • 
+    theme_bw() + # í…Œë§ˆ ì„¤ì • 
     theme(panel.grid= element_blank(),
           axis.title = element_text(size = 20),
           axis.text = element_text(size = 20),
@@ -751,29 +751,29 @@ count
   #F
   moran.test(ad.net$F, w.ad) 
   mt <- moran.test(ad.net$F, w.ad) 
-  z_score <- (mt$estimate["Moran I statistic"] - mt$estimate["Expectation"]) / sqrt(mt$estimate["Variance"]) # z-score °è»ê½Ä Àû¿ëÇÏ±â
-  print(z_score) # z-score °ª Ãâ·ÂÇÏ±â
+  z_score <- (mt$estimate["Moran I statistic"] - mt$estimate["Expectation"]) / sqrt(mt$estimate["Variance"]) # z-score ê³„ì‚°ì‹ ì ìš©í•˜ê¸°
+  print(z_score) # z-score ê°’ ì¶œë ¥í•˜ê¸°
   
   #F
-  x = ad.net$F #¼öÁúÀÎÀÚ ¼±Á¤
-  wx <- lag.listw(w.ad, x) # °ø°£Àû Áö¿¬°ª 
-  xwx.lm <- lm(wx ~ x) # È¸±Í¸ğÇü 
-  infl.xwx <- influence.measures(xwx.lm) # ¿µÇâ·Â ÃøÁ¤ 
-  is.inf <- which(apply(infl.xwx$is.inf, 1, any)) # ¿µÇâ·ÂÀÌ Å« Á¡µéÀÇ ÀÎµ¦½º 
-  labels <- as.character(ad.net$id) # ·¹ÀÌºí
-  #moran¡¯s index »êÁ¡µµ ±×·¡ÇÁ ±×¸®±â
-  F.moran = ggplot(data.frame(x = x, wx = wx), aes(x = x, y = wx)) + # µ¥ÀÌÅÍ ÇÁ·¹ÀÓ°ú ¸ÅÇÎ ¼³Á¤ 
+  x = ad.net$F #ìˆ˜ì§ˆì¸ì ì„ ì •
+  wx <- lag.listw(w.ad, x) # ê³µê°„ì  ì§€ì—°ê°’ 
+  xwx.lm <- lm(wx ~ x) # íšŒê·€ëª¨í˜• 
+  infl.xwx <- influence.measures(xwx.lm) # ì˜í–¥ë ¥ ì¸¡ì • 
+  is.inf <- which(apply(infl.xwx$is.inf, 1, any)) # ì˜í–¥ë ¥ì´ í° ì ë“¤ì˜ ì¸ë±ìŠ¤ 
+  labels <- as.character(ad.net$id) # ë ˆì´ë¸”
+  #moranâ€™s index ì‚°ì ë„ ê·¸ë˜í”„ ê·¸ë¦¬ê¸°
+  F.moran = ggplot(data.frame(x = x, wx = wx), aes(x = x, y = wx)) + # ë°ì´í„° í”„ë ˆì„ê³¼ ë§¤í•‘ ì„¤ì • 
     geom_point(aes(color = interaction(cut(x, c(-Inf, mean(x), Inf)), cut(wx, c(-Inf, mean(wx), Inf)))),size = 2.5) +
-    scale_color_manual(values = c("yellow2", "dodgerblue3", "springgreen3", "red2")) + # Á¡ÀÇ »ö»óÀ» ¼öµ¿À¸·Î ÁöÁ¤
-    geom_smooth(method = "lm", se = FALSE) + # È¸±Í¼± Ç¥½Ã 
-    geom_hline(yintercept = mean(wx), lty = 2) + # y=x ¼± Ç¥½Ã 
-    geom_vline(xintercept = mean(x), lty = 2) + # y=x ¼± Ç¥½Ã 
-    # geom_point(data = data.frame(x = x[is.inf], wx = wx[is.inf]), shape = 9) + # ¿µÇâ·ÂÀÌ Å« Á¡µé Ç¥½Ã 
-    # geom_text(data = data.frame(x = x[is.inf], wx = wx[is.inf], labels = labels[is.inf]), aes(label = labels), vjust = -0.5) + # ¿µÇâ·ÂÀÌ Å« Á¡µé¿¡ ·¹ÀÌºí ºÙÀÌ±â 
-    labs(title = "Moran¡¯s index scatterplot (F)", # Á¦¸ñ ¼³Á¤ 
-         x = "Standardized F", # xÃà ·¹ÀÌºí ¼³Á¤ 
-         y = "Spatially lagged F") + # yÃà ·¹ÀÌºí ¼³Á¤ 
-    theme_bw() + # Å×¸¶ ¼³Á¤ 
+    scale_color_manual(values = c("yellow2", "dodgerblue3", "springgreen3", "red2")) + # ì ì˜ ìƒ‰ìƒì„ ìˆ˜ë™ìœ¼ë¡œ ì§€ì •
+    geom_smooth(method = "lm", se = FALSE) + # íšŒê·€ì„  í‘œì‹œ 
+    geom_hline(yintercept = mean(wx), lty = 2) + # y=x ì„  í‘œì‹œ 
+    geom_vline(xintercept = mean(x), lty = 2) + # y=x ì„  í‘œì‹œ 
+    # geom_point(data = data.frame(x = x[is.inf], wx = wx[is.inf]), shape = 9) + # ì˜í–¥ë ¥ì´ í° ì ë“¤ í‘œì‹œ 
+    # geom_text(data = data.frame(x = x[is.inf], wx = wx[is.inf], labels = labels[is.inf]), aes(label = labels), vjust = -0.5) + # ì˜í–¥ë ¥ì´ í° ì ë“¤ì— ë ˆì´ë¸” ë¶™ì´ê¸° 
+    labs(title = "Moranâ€™s index scatterplot (F)", # ì œëª© ì„¤ì • 
+         x = "Standardized F", # xì¶• ë ˆì´ë¸” ì„¤ì • 
+         y = "Spatially lagged F") + # yì¶• ë ˆì´ë¸” ì„¤ì • 
+    theme_bw() + # í…Œë§ˆ ì„¤ì • 
     theme(panel.grid= element_blank(),
           axis.title = element_text(size = 20),
           axis.text = element_text(size = 20),
@@ -788,29 +788,29 @@ count
   #Mn
   moran.test(ad.net$Mn, w.ad)
   mt <- moran.test(ad.net$Mn, w.ad) 
-  z_score <- (mt$estimate["Moran I statistic"] - mt$estimate["Expectation"]) / sqrt(mt$estimate["Variance"]) # z-score °è»ê½Ä Àû¿ëÇÏ±â
-  print(z_score) # z-score °ª Ãâ·ÂÇÏ±â
+  z_score <- (mt$estimate["Moran I statistic"] - mt$estimate["Expectation"]) / sqrt(mt$estimate["Variance"]) # z-score ê³„ì‚°ì‹ ì ìš©í•˜ê¸°
+  print(z_score) # z-score ê°’ ì¶œë ¥í•˜ê¸°
   
   #Mn
-  x = ad.net$Mn #¼öÁúÀÎÀÚ ¼±Á¤
-  wx <- lag.listw(w.ad, x) # °ø°£Àû Áö¿¬°ª 
-  xwx.lm <- lm(wx ~ x) # È¸±Í¸ğÇü 
-  infl.xwx <- influence.measures(xwx.lm) # ¿µÇâ·Â ÃøÁ¤ 
-  is.inf <- which(apply(infl.xwx$is.inf, 1, any)) # ¿µÇâ·ÂÀÌ Å« Á¡µéÀÇ ÀÎµ¦½º 
-  labels <- as.character(ad.net$id) # ·¹ÀÌºí
-  #moran¡¯s index »êÁ¡µµ ±×·¡ÇÁ ±×¸®±â
-  Mn.moran = ggplot(data.frame(x = x, wx = wx), aes(x = x, y = wx)) + # µ¥ÀÌÅÍ ÇÁ·¹ÀÓ°ú ¸ÅÇÎ ¼³Á¤ 
+  x = ad.net$Mn #ìˆ˜ì§ˆì¸ì ì„ ì •
+  wx <- lag.listw(w.ad, x) # ê³µê°„ì  ì§€ì—°ê°’ 
+  xwx.lm <- lm(wx ~ x) # íšŒê·€ëª¨í˜• 
+  infl.xwx <- influence.measures(xwx.lm) # ì˜í–¥ë ¥ ì¸¡ì • 
+  is.inf <- which(apply(infl.xwx$is.inf, 1, any)) # ì˜í–¥ë ¥ì´ í° ì ë“¤ì˜ ì¸ë±ìŠ¤ 
+  labels <- as.character(ad.net$id) # ë ˆì´ë¸”
+  #moranâ€™s index ì‚°ì ë„ ê·¸ë˜í”„ ê·¸ë¦¬ê¸°
+  Mn.moran = ggplot(data.frame(x = x, wx = wx), aes(x = x, y = wx)) + # ë°ì´í„° í”„ë ˆì„ê³¼ ë§¤í•‘ ì„¤ì • 
     geom_point(aes(color = interaction(cut(x, c(-Inf, mean(x), Inf)), cut(wx, c(-Inf, mean(wx), Inf)))),size = 2.5) +
-    scale_color_manual(values = c("yellow2", "dodgerblue3", "springgreen3", "red2")) + # Á¡ÀÇ »ö»óÀ» ¼öµ¿À¸·Î ÁöÁ¤
-    geom_smooth(method = "lm", se = FALSE) + # È¸±Í¼± Ç¥½Ã 
-    geom_hline(yintercept = mean(wx), lty = 2) + # y=x ¼± Ç¥½Ã 
-    geom_vline(xintercept = mean(x), lty = 2) + # y=x ¼± Ç¥½Ã 
-    # geom_point(data = data.frame(x = x[is.inf], wx = wx[is.inf]), shape = 9) + # ¿µÇâ·ÂÀÌ Å« Á¡µé Ç¥½Ã 
-    # geom_text(data = data.frame(x = x[is.inf], wx = wx[is.inf], labels = labels[is.inf]), aes(label = labels), vjust = -0.5) + # ¿µÇâ·ÂÀÌ Å« Á¡µé¿¡ ·¹ÀÌºí ºÙÀÌ±â 
-    labs(title = "Moran¡¯s index scatterplot (Mn)", # Á¦¸ñ ¼³Á¤ 
-         x = "Standardized Mn", # xÃà ·¹ÀÌºí ¼³Á¤ 
-         y = "Spatially lagged Mn") + # yÃà ·¹ÀÌºí ¼³Á¤ 
-    theme_bw() + # Å×¸¶ ¼³Á¤ 
+    scale_color_manual(values = c("yellow2", "dodgerblue3", "springgreen3", "red2")) + # ì ì˜ ìƒ‰ìƒì„ ìˆ˜ë™ìœ¼ë¡œ ì§€ì •
+    geom_smooth(method = "lm", se = FALSE) + # íšŒê·€ì„  í‘œì‹œ 
+    geom_hline(yintercept = mean(wx), lty = 2) + # y=x ì„  í‘œì‹œ 
+    geom_vline(xintercept = mean(x), lty = 2) + # y=x ì„  í‘œì‹œ 
+    # geom_point(data = data.frame(x = x[is.inf], wx = wx[is.inf]), shape = 9) + # ì˜í–¥ë ¥ì´ í° ì ë“¤ í‘œì‹œ 
+    # geom_text(data = data.frame(x = x[is.inf], wx = wx[is.inf], labels = labels[is.inf]), aes(label = labels), vjust = -0.5) + # ì˜í–¥ë ¥ì´ í° ì ë“¤ì— ë ˆì´ë¸” ë¶™ì´ê¸° 
+    labs(title = "Moranâ€™s index scatterplot (Mn)", # ì œëª© ì„¤ì • 
+         x = "Standardized Mn", # xì¶• ë ˆì´ë¸” ì„¤ì • 
+         y = "Spatially lagged Mn") + # yì¶• ë ˆì´ë¸” ì„¤ì • 
+    theme_bw() + # í…Œë§ˆ ì„¤ì • 
     theme(panel.grid= element_blank(),
           axis.title = element_text(size = 20),
           axis.text = element_text(size = 20),
@@ -824,29 +824,29 @@ count
   #pH
   moran.test(ad.net$pH, w.ad)
   mt <- moran.test(ad.net$pH, w.ad) 
-  z_score <- (mt$estimate["Moran I statistic"] - mt$estimate["Expectation"]) / sqrt(mt$estimate["Variance"]) # z-score °è»ê½Ä Àû¿ëÇÏ±â
-  print(z_score) # z-score °ª Ãâ·ÂÇÏ±â
+  z_score <- (mt$estimate["Moran I statistic"] - mt$estimate["Expectation"]) / sqrt(mt$estimate["Variance"]) # z-score ê³„ì‚°ì‹ ì ìš©í•˜ê¸°
+  print(z_score) # z-score ê°’ ì¶œë ¥í•˜ê¸°
   
   #pH
-  x = ad.net$pH #¼öÁúÀÎÀÚ ¼±Á¤
-  wx <- lag.listw(w.ad, x) # °ø°£Àû Áö¿¬°ª 
-  xwx.lm <- lm(wx ~ x) # È¸±Í¸ğÇü 
-  infl.xwx <- influence.measures(xwx.lm) # ¿µÇâ·Â ÃøÁ¤ 
-  is.inf <- which(apply(infl.xwx$is.inf, 1, any)) # ¿µÇâ·ÂÀÌ Å« Á¡µéÀÇ ÀÎµ¦½º 
-  labels <- as.character(ad.net$id) # ·¹ÀÌºí
-  #moran¡¯s index »êÁ¡µµ ±×·¡ÇÁ ±×¸®±â
-  pH.moran = ggplot(data.frame(x = x, wx = wx), aes(x = x, y = wx)) + # µ¥ÀÌÅÍ ÇÁ·¹ÀÓ°ú ¸ÅÇÎ ¼³Á¤ 
+  x = ad.net$pH #ìˆ˜ì§ˆì¸ì ì„ ì •
+  wx <- lag.listw(w.ad, x) # ê³µê°„ì  ì§€ì—°ê°’ 
+  xwx.lm <- lm(wx ~ x) # íšŒê·€ëª¨í˜• 
+  infl.xwx <- influence.measures(xwx.lm) # ì˜í–¥ë ¥ ì¸¡ì • 
+  is.inf <- which(apply(infl.xwx$is.inf, 1, any)) # ì˜í–¥ë ¥ì´ í° ì ë“¤ì˜ ì¸ë±ìŠ¤ 
+  labels <- as.character(ad.net$id) # ë ˆì´ë¸”
+  #moranâ€™s index ì‚°ì ë„ ê·¸ë˜í”„ ê·¸ë¦¬ê¸°
+  pH.moran = ggplot(data.frame(x = x, wx = wx), aes(x = x, y = wx)) + # ë°ì´í„° í”„ë ˆì„ê³¼ ë§¤í•‘ ì„¤ì • 
     geom_point(aes(color = interaction(cut(x, c(-Inf, mean(x), Inf)), cut(wx, c(-Inf, mean(wx), Inf)))),size = 2.5) +
-    scale_color_manual(values = c("yellow2", "dodgerblue3", "springgreen3", "red2")) + # Á¡ÀÇ »ö»óÀ» ¼öµ¿À¸·Î ÁöÁ¤
-    geom_smooth(method = "lm", se = FALSE) + # È¸±Í¼± Ç¥½Ã 
-    geom_hline(yintercept = mean(wx), lty = 2) + # y=x ¼± Ç¥½Ã 
-    geom_vline(xintercept = mean(x), lty = 2) + # y=x ¼± Ç¥½Ã 
-    # geom_point(data = data.frame(x = x[is.inf], wx = wx[is.inf]), shape = 9) + # ¿µÇâ·ÂÀÌ Å« Á¡µé Ç¥½Ã 
-    # geom_text(data = data.frame(x = x[is.inf], wx = wx[is.inf], labels = labels[is.inf]), aes(label = labels), vjust = -0.5) + # ¿µÇâ·ÂÀÌ Å« Á¡µé¿¡ ·¹ÀÌºí ºÙÀÌ±â 
-    labs(title = "Moran¡¯s index scatterplot (pH)", # Á¦¸ñ ¼³Á¤ 
-         x = "Standardized pH", # xÃà ·¹ÀÌºí ¼³Á¤ 
-         y = "Spatially lagged pH") + # yÃà ·¹ÀÌºí ¼³Á¤ 
-    theme_bw() + # Å×¸¶ ¼³Á¤ 
+    scale_color_manual(values = c("yellow2", "dodgerblue3", "springgreen3", "red2")) + # ì ì˜ ìƒ‰ìƒì„ ìˆ˜ë™ìœ¼ë¡œ ì§€ì •
+    geom_smooth(method = "lm", se = FALSE) + # íšŒê·€ì„  í‘œì‹œ 
+    geom_hline(yintercept = mean(wx), lty = 2) + # y=x ì„  í‘œì‹œ 
+    geom_vline(xintercept = mean(x), lty = 2) + # y=x ì„  í‘œì‹œ 
+    # geom_point(data = data.frame(x = x[is.inf], wx = wx[is.inf]), shape = 9) + # ì˜í–¥ë ¥ì´ í° ì ë“¤ í‘œì‹œ 
+    # geom_text(data = data.frame(x = x[is.inf], wx = wx[is.inf], labels = labels[is.inf]), aes(label = labels), vjust = -0.5) + # ì˜í–¥ë ¥ì´ í° ì ë“¤ì— ë ˆì´ë¸” ë¶™ì´ê¸° 
+    labs(title = "Moranâ€™s index scatterplot (pH)", # ì œëª© ì„¤ì • 
+         x = "Standardized pH", # xì¶• ë ˆì´ë¸” ì„¤ì • 
+         y = "Spatially lagged pH") + # yì¶• ë ˆì´ë¸” ì„¤ì • 
+    theme_bw() + # í…Œë§ˆ ì„¤ì • 
     theme(panel.grid= element_blank(),
           axis.title = element_text(size = 20),
           axis.text = element_text(size = 20),
@@ -858,10 +858,10 @@ count
   pH.moran
 }
 #===============================================================================
-#Local moran map - ÇàÁ¤±¸¿ªº° ½Ã°¢È­ (ÇàÁ¤±¸¿ªº° ¼öÁúÀÎÀÚ Æò±Õ ÈÄ LISA °è»ê, k = 5), Adult Æ÷ÇÔ
+#Local moran map - í–‰ì •êµ¬ì—­ë³„ ì‹œê°í™” (í–‰ì •êµ¬ì—­ë³„ ìˆ˜ì§ˆì¸ì í‰ê·  í›„ LISA ê³„ì‚°, k = 5), Adult í¬í•¨
 {
   {
-    dat <- read.csv("¾È½ÉÁöÇÏ¼ö Ãæ³²Æò±Õ(HQ ¼öÁ¤).csv", na="-", fileEncoding = "CP949", encoding = "UTF-8")
+    dat <- read.csv("ì•ˆì‹¬ì§€í•˜ìˆ˜ ì¶©ë‚¨í‰ê· (HQ ìˆ˜ì •).csv", na="-", fileEncoding = "CP949", encoding = "UTF-8")
     {
       dat$No. = as.numeric(dat$No.)
       dat$Year = as.numeric(dat$Year)
@@ -870,47 +870,47 @@ count
       dat$GQI = as.numeric(dat$GQI)
       dat$General_Bacteria = as.numeric(dat$General_Bacteria)
     }
-    # dat = subset(dat, dat$½Ãµµ == "ÃæÃ»³²µµ")
+    # dat = subset(dat, dat$ì‹œë„ == "ì¶©ì²­ë‚¨ë„")
     ad = dat
     # ch = subset(dat, dat$Age == "Child")
     
-    #ÀÏ´Ü 0°ªµéÀ» ´Ù ¼öÁ¤ => °ø°£ºĞ¼®À» À§ÇØ¼± 0°ª X
+    #ì¼ë‹¨ 0ê°’ë“¤ì„ ë‹¤ ìˆ˜ì • => ê³µê°„ë¶„ì„ì„ ìœ„í•´ì„  0ê°’ X
     ad[c(9:48)][ad[c(9:48)]==0]<-0.000001
     # ch[c(10:48)][ch[c(10:48)]==0]<-0.000001
     str(ad)
-    ad.net = ad[complete.cases(ad$longitude), ] #NA´Â Á¦°Å! (3°³ Çà Á¦°Å)
-    # ch.net = ch[complete.cases(ch$longitude), ] #NA´Â Á¦°Å! (3°³ Çà Á¦°Å)
+    ad.net = ad[complete.cases(ad$longitude), ] #NAëŠ” ì œê±°! (3ê°œ í–‰ ì œê±°)
+    # ch.net = ch[complete.cases(ch$longitude), ] #NAëŠ” ì œê±°! (3ê°œ í–‰ ì œê±°)
     
-    #µ¥ÀÌÅÍ Ç¥ÁØÈ­ (xÃà º¯¼ö= (¼öÁúÀÎÀÚ ³óµµ-Æò±Õ)/Ç¥ÁØÆíÂ÷) Áï z-score »ç¿ë -> Æò±ÕÀ» 0À¸·Î Ç¥ÁØÆíÂ÷¸¦ 1·Î ¸¸µç´Ù
+    #ë°ì´í„° í‘œì¤€í™” (xì¶• ë³€ìˆ˜= (ìˆ˜ì§ˆì¸ì ë†ë„-í‰ê· )/í‘œì¤€í¸ì°¨) ì¦‰ z-score ì‚¬ìš© -> í‰ê· ì„ 0ìœ¼ë¡œ í‘œì¤€í¸ì°¨ë¥¼ 1ë¡œ ë§Œë“ ë‹¤
     #Adult
     ad.net.s = scale(ad.net[c(9:48)])
     ad.net.s = as.data.frame(ad.net.s)
     ad.net = cbind(ad.net[c(1:8)], ad.net.s)
-    summary(ad.net$General_Bacteria) #Ç¥ÁØÈ­°¡ Àß µÆ³ª È®ÀÎ
-    summary(ad.net$HQ.total.ad) #Ç¥ÁØÈ­°¡ Àß µÆ³ª È®ÀÎ
-    summary(ad.net$HQ.total.ch) #Ç¥ÁØÈ­°¡ Àß µÆ³ª È®ÀÎ
+    summary(ad.net$General_Bacteria) #í‘œì¤€í™”ê°€ ì˜ ëë‚˜ í™•ì¸
+    summary(ad.net$HQ.total.ad) #í‘œì¤€í™”ê°€ ì˜ ëë‚˜ í™•ì¸
+    summary(ad.net$HQ.total.ch) #í‘œì¤€í™”ê°€ ì˜ ëë‚˜ í™•ì¸
     
     #Good
     head(ad.net)
     
-    #ÀÌ¿ô °ü°è ¸®½ºÆ® »ı¼ºÇÏ±â
+    #ì´ì›ƒ ê´€ê³„ ë¦¬ìŠ¤íŠ¸ ìƒì„±í•˜ê¸°
     coords.ad <- cbind(ad.net$longitude, ad.net$latitude)
     
-    nb.ad <- knn2nb(knearneigh(coords.ad, k = 5)) # k-ÃÖ±ÙÁ¢ ÀÌ¿ô ¹æ½ÄÀ¸·Î ÀÌ¿ô °ü°è ¸®½ºÆ® »ı¼º => °í¹Ğµµ ºÒ±Õµî ºĞÆ÷ µ¥ÀÌÅÍ
+    nb.ad <- knn2nb(knearneigh(coords.ad, k = 5)) # k-ìµœê·¼ì ‘ ì´ì›ƒ ë°©ì‹ìœ¼ë¡œ ì´ì›ƒ ê´€ê³„ ë¦¬ìŠ¤íŠ¸ ìƒì„± => ê³ ë°€ë„ ë¶ˆê· ë“± ë¶„í¬ ë°ì´í„°
     
-    #°ø°£ °¡ÁßÄ¡ Çà·Ä »ı¼ºÇÏ±â
+    #ê³µê°„ ê°€ì¤‘ì¹˜ í–‰ë ¬ ìƒì„±í•˜ê¸°
     # dmat <- as.matrix (dist (cbind (ad.net$longitude, ad.net$latitude)))
     w.ad <- nb2listw (nb.ad, style = "minmax")
     
     lisa.pH <- localmoran(ad.net$pH, w.ad)
     lisa.pH = as.data.frame(lisa.pH)
     colnames(lisa.pH) <- c("Ii", "E.Ii", "Var.Ii", "Z.Ii", "Pr")
-    # High-High, Low-High, High-Low, Low-Low ±¸ºĞ
-    lisa.pH$group <- NA # »õ·Î¿î ¿­ »ı¼º
-    lisa.pH$group[lisa.pH$Z.Ii > 0 & lisa.pH$Ii > 0] <- "High-High" # High-High Á¶°Ç
-    lisa.pH$group[lisa.pH$Z.Ii > 0 & lisa.pH$Ii < 0] <- "High-Low" # High-Low Á¶°Ç
-    lisa.pH$group[lisa.pH$Z.Ii < 0 & lisa.pH$Ii > 0] <- "Low-High" # Low-High Á¶°Ç
-    lisa.pH$group[lisa.pH$Z.Ii < 0 & lisa.pH$Ii < 0] <- "Low-Low" # Low-Low Á¶°Ç
+    # High-High, Low-High, High-Low, Low-Low êµ¬ë¶„
+    lisa.pH$group <- NA # ìƒˆë¡œìš´ ì—´ ìƒì„±
+    lisa.pH$group[lisa.pH$Z.Ii > 0 & lisa.pH$Ii > 0] <- "High-High" # High-High ì¡°ê±´
+    lisa.pH$group[lisa.pH$Z.Ii > 0 & lisa.pH$Ii < 0] <- "High-Low" # High-Low ì¡°ê±´
+    lisa.pH$group[lisa.pH$Z.Ii < 0 & lisa.pH$Ii > 0] <- "Low-High" # Low-High ì¡°ê±´
+    lisa.pH$group[lisa.pH$Z.Ii < 0 & lisa.pH$Ii < 0] <- "Low-Low" # Low-Low ì¡°ê±´
     head(lisa.pH)
     names(lisa.pH)[5] <- c("p.value")
     head(lisa.pH)
@@ -918,12 +918,12 @@ count
     lisa.NO3.N <- localmoran(ad.net$NO3.N, w.ad)
     lisa.NO3.N = as.data.frame(lisa.NO3.N)
     colnames(lisa.NO3.N) <- c("Ii", "E.Ii", "Var.Ii", "Z.Ii", "Pr")
-    # High-High, Low-High, High-Low, Low-Low ±¸ºĞ
-    lisa.NO3.N$group <- NA # »õ·Î¿î ¿­ »ı¼º
-    lisa.NO3.N$group[lisa.NO3.N$Z.Ii > 0 & lisa.NO3.N$Ii > 0] <- "High-High" # High-High Á¶°Ç
-    lisa.NO3.N$group[lisa.NO3.N$Z.Ii > 0 & lisa.NO3.N$Ii < 0] <- "High-Low" # High-Low Á¶°Ç
-    lisa.NO3.N$group[lisa.NO3.N$Z.Ii < 0 & lisa.NO3.N$Ii > 0] <- "Low-High" # Low-High Á¶°Ç
-    lisa.NO3.N$group[lisa.NO3.N$Z.Ii < 0 & lisa.NO3.N$Ii < 0] <- "Low-Low" # Low-Low Á¶°Ç
+    # High-High, Low-High, High-Low, Low-Low êµ¬ë¶„
+    lisa.NO3.N$group <- NA # ìƒˆë¡œìš´ ì—´ ìƒì„±
+    lisa.NO3.N$group[lisa.NO3.N$Z.Ii > 0 & lisa.NO3.N$Ii > 0] <- "High-High" # High-High ì¡°ê±´
+    lisa.NO3.N$group[lisa.NO3.N$Z.Ii > 0 & lisa.NO3.N$Ii < 0] <- "High-Low" # High-Low ì¡°ê±´
+    lisa.NO3.N$group[lisa.NO3.N$Z.Ii < 0 & lisa.NO3.N$Ii > 0] <- "Low-High" # Low-High ì¡°ê±´
+    lisa.NO3.N$group[lisa.NO3.N$Z.Ii < 0 & lisa.NO3.N$Ii < 0] <- "Low-Low" # Low-Low ì¡°ê±´
     head(lisa.NO3.N)
     names(lisa.NO3.N)[5] <- c("p.value")
     head(lisa.NO3.N)
@@ -931,12 +931,12 @@ count
     lisa.F <- localmoran(ad.net$F, w.ad)
     lisa.F = as.data.frame(lisa.F)
     colnames(lisa.F) <- c("Ii", "E.Ii", "Var.Ii", "Z.Ii", "Pr")
-    # High-High, Low-High, High-Low, Low-Low ±¸ºĞ
-    lisa.F$group <- NA # »õ·Î¿î ¿­ »ı¼º
-    lisa.F$group[lisa.F$Z.Ii > 0 & lisa.F$Ii > 0] <- "High-High" # High-High Á¶°Ç
-    lisa.F$group[lisa.F$Z.Ii > 0 & lisa.F$Ii < 0] <- "High-Low" # Low-Low Á¶°Ç
-    lisa.F$group[lisa.F$Z.Ii < 0 & lisa.F$Ii > 0] <- "Low-High" # High-Low Á¶°Ç
-    lisa.F$group[lisa.F$Z.Ii < 0 & lisa.F$Ii < 0] <- "Low-Low" # Low-High Á¶°Ç
+    # High-High, Low-High, High-Low, Low-Low êµ¬ë¶„
+    lisa.F$group <- NA # ìƒˆë¡œìš´ ì—´ ìƒì„±
+    lisa.F$group[lisa.F$Z.Ii > 0 & lisa.F$Ii > 0] <- "High-High" # High-High ì¡°ê±´
+    lisa.F$group[lisa.F$Z.Ii > 0 & lisa.F$Ii < 0] <- "High-Low" # Low-Low ì¡°ê±´
+    lisa.F$group[lisa.F$Z.Ii < 0 & lisa.F$Ii > 0] <- "Low-High" # High-Low ì¡°ê±´
+    lisa.F$group[lisa.F$Z.Ii < 0 & lisa.F$Ii < 0] <- "Low-Low" # Low-High ì¡°ê±´
     head(lisa.F)
     names(lisa.F)[5] <- c("p.value")
     head(lisa.F)
@@ -944,12 +944,12 @@ count
     lisa.Al <- localmoran(ad.net$Al, w.ad)
     lisa.Al = as.data.frame(lisa.Al)
     colnames(lisa.Al) <- c("Ii", "E.Ii", "Var.Ii", "Z.Ii", "Pr")
-    # High-High, Low-High, High-Low, Low-Low ±¸ºĞ
-    lisa.Al$group <- NA # »õ·Î¿î ¿­ »ı¼º
-    lisa.Al$group[lisa.Al$Z.Ii > 0 & lisa.Al$Ii > 0] <- "High-High" # High-High Á¶°Ç
-    lisa.Al$group[lisa.Al$Z.Ii > 0 & lisa.Al$Ii < 0] <- "High-Low" # Low-Low Á¶°Ç
-    lisa.Al$group[lisa.Al$Z.Ii < 0 & lisa.Al$Ii > 0] <- "Low-High" # High-Low Á¶°Ç
-    lisa.Al$group[lisa.Al$Z.Ii < 0 & lisa.Al$Ii < 0] <- "Low-Low" # Low-High Á¶°Ç
+    # High-High, Low-High, High-Low, Low-Low êµ¬ë¶„
+    lisa.Al$group <- NA # ìƒˆë¡œìš´ ì—´ ìƒì„±
+    lisa.Al$group[lisa.Al$Z.Ii > 0 & lisa.Al$Ii > 0] <- "High-High" # High-High ì¡°ê±´
+    lisa.Al$group[lisa.Al$Z.Ii > 0 & lisa.Al$Ii < 0] <- "High-Low" # Low-Low ì¡°ê±´
+    lisa.Al$group[lisa.Al$Z.Ii < 0 & lisa.Al$Ii > 0] <- "Low-High" # High-Low ì¡°ê±´
+    lisa.Al$group[lisa.Al$Z.Ii < 0 & lisa.Al$Ii < 0] <- "Low-Low" # Low-High ì¡°ê±´
     head(lisa.Al)
     names(lisa.Al)[5] <- c("p.value")
     head(lisa.Al)
@@ -957,12 +957,12 @@ count
     lisa.As <- localmoran(ad.net$As, w.ad)
     lisa.As = as.data.frame(lisa.As)
     colnames(lisa.As) <- c("Ii", "E.Ii", "Var.Ii", "Z.Ii", "Pr")
-    # High-High, Low-High, High-Low, Low-Low ±¸ºĞ
-    lisa.As$group <- NA # »õ·Î¿î ¿­ »ı¼º
-    lisa.As$group[lisa.As$Z.Ii > 0 & lisa.As$Ii > 0] <- "High-High" # High-High Á¶°Ç
-    lisa.As$group[lisa.As$Z.Ii > 0 & lisa.As$Ii < 0] <- "High-Low" # Low-Low Á¶°Ç
-    lisa.As$group[lisa.As$Z.Ii < 0 & lisa.As$Ii > 0] <- "Low-High" # High-Low Á¶°Ç
-    lisa.As$group[lisa.As$Z.Ii < 0 & lisa.As$Ii < 0] <- "Low-Low" # Low-High Á¶°Ç
+    # High-High, Low-High, High-Low, Low-Low êµ¬ë¶„
+    lisa.As$group <- NA # ìƒˆë¡œìš´ ì—´ ìƒì„±
+    lisa.As$group[lisa.As$Z.Ii > 0 & lisa.As$Ii > 0] <- "High-High" # High-High ì¡°ê±´
+    lisa.As$group[lisa.As$Z.Ii > 0 & lisa.As$Ii < 0] <- "High-Low" # Low-Low ì¡°ê±´
+    lisa.As$group[lisa.As$Z.Ii < 0 & lisa.As$Ii > 0] <- "Low-High" # High-Low ì¡°ê±´
+    lisa.As$group[lisa.As$Z.Ii < 0 & lisa.As$Ii < 0] <- "Low-Low" # Low-High ì¡°ê±´
     head(lisa.As)
     names(lisa.As)[5] <- c("p.vAsue")
     head(lisa.As)
@@ -970,12 +970,12 @@ count
     lisa.Mn <- localmoran(ad.net$Mn, w.ad)
     lisa.Mn = as.data.frame(lisa.Mn)
     colnames(lisa.Mn) <- c("Ii", "E.Ii", "Var.Ii", "Z.Ii", "Pr")
-    # High-High, Low-High, High-Low, Low-Low ±¸ºĞ
-    lisa.Mn$group <- NA # »õ·Î¿î ¿­ »ı¼º
-    lisa.Mn$group[lisa.Mn$Z.Ii > 0 & lisa.Mn$Ii > 0] <- "High-High" # High-High Á¶°Ç
-    lisa.Mn$group[lisa.Mn$Z.Ii > 0 & lisa.Mn$Ii < 0] <- "High-Low" # Low-Low Á¶°Ç
-    lisa.Mn$group[lisa.Mn$Z.Ii < 0 & lisa.Mn$Ii > 0] <- "Low-High" # High-Low Á¶°Ç
-    lisa.Mn$group[lisa.Mn$Z.Ii < 0 & lisa.Mn$Ii < 0] <- "Low-Low" # Low-High Á¶°Ç
+    # High-High, Low-High, High-Low, Low-Low êµ¬ë¶„
+    lisa.Mn$group <- NA # ìƒˆë¡œìš´ ì—´ ìƒì„±
+    lisa.Mn$group[lisa.Mn$Z.Ii > 0 & lisa.Mn$Ii > 0] <- "High-High" # High-High ì¡°ê±´
+    lisa.Mn$group[lisa.Mn$Z.Ii > 0 & lisa.Mn$Ii < 0] <- "High-Low" # Low-Low ì¡°ê±´
+    lisa.Mn$group[lisa.Mn$Z.Ii < 0 & lisa.Mn$Ii > 0] <- "Low-High" # High-Low ì¡°ê±´
+    lisa.Mn$group[lisa.Mn$Z.Ii < 0 & lisa.Mn$Ii < 0] <- "Low-Low" # Low-High ì¡°ê±´
     head(lisa.Mn)
     names(lisa.Mn)[5] <- c("p.value")
     head(lisa.Mn)
@@ -983,12 +983,12 @@ count
     lisa.Fe <- localmoran(ad.net$Fe, w.ad)
     lisa.Fe = as.data.frame(lisa.Fe)
     colnames(lisa.Fe) <- c("Ii", "E.Ii", "Var.Ii", "Z.Ii", "Pr")
-    # High-High, Low-High, High-Low, Low-Low ±¸ºĞ
-    lisa.Fe$group <- NA # »õ·Î¿î ¿­ »ı¼º
-    lisa.Fe$group[lisa.Fe$Z.Ii > 0 & lisa.Fe$Ii > 0] <- "High-High" # High-High Á¶°Ç
-    lisa.Fe$group[lisa.Fe$Z.Ii > 0 & lisa.Fe$Ii < 0] <- "High-Low" # Low-Low Á¶°Ç
-    lisa.Fe$group[lisa.Fe$Z.Ii < 0 & lisa.Fe$Ii > 0] <- "Low-High" # High-Low Á¶°Ç
-    lisa.Fe$group[lisa.Fe$Z.Ii < 0 & lisa.Fe$Ii < 0] <- "Low-Low" # Low-High Á¶°Ç
+    # High-High, Low-High, High-Low, Low-Low êµ¬ë¶„
+    lisa.Fe$group <- NA # ìƒˆë¡œìš´ ì—´ ìƒì„±
+    lisa.Fe$group[lisa.Fe$Z.Ii > 0 & lisa.Fe$Ii > 0] <- "High-High" # High-High ì¡°ê±´
+    lisa.Fe$group[lisa.Fe$Z.Ii > 0 & lisa.Fe$Ii < 0] <- "High-Low" # Low-Low ì¡°ê±´
+    lisa.Fe$group[lisa.Fe$Z.Ii < 0 & lisa.Fe$Ii > 0] <- "Low-High" # High-Low ì¡°ê±´
+    lisa.Fe$group[lisa.Fe$Z.Ii < 0 & lisa.Fe$Ii < 0] <- "Low-Low" # Low-High ì¡°ê±´
     head(lisa.Fe)
     names(lisa.Fe)[5] <- c("p.value")
     head(lisa.Fe)
@@ -996,12 +996,12 @@ count
     lisa.Turbidity <- localmoran(ad.net$Turbidity, w.ad)
     lisa.Turbidity = as.data.frame(lisa.Turbidity)
     colnames(lisa.Turbidity) <- c("Ii", "E.Ii", "Var.Ii", "Z.Ii", "Pr")
-    # High-High, Low-High, High-Low, Low-Low ±¸ºĞ
-    lisa.Turbidity$group <- NA # »õ·Î¿î ¿­ »ı¼º
-    lisa.Turbidity$group[lisa.Turbidity$Z.Ii > 0 & lisa.Turbidity$Ii > 0] <- "High-High" # High-High Á¶°Ç
-    lisa.Turbidity$group[lisa.Turbidity$Z.Ii > 0 & lisa.Turbidity$Ii < 0] <- "High-Low" # Low-Low Á¶°Ç
-    lisa.Turbidity$group[lisa.Turbidity$Z.Ii < 0 & lisa.Turbidity$Ii > 0] <- "Low-High" # High-Low Á¶°Ç
-    lisa.Turbidity$group[lisa.Turbidity$Z.Ii < 0 & lisa.Turbidity$Ii < 0] <- "Low-Low" # Low-High Á¶°Ç
+    # High-High, Low-High, High-Low, Low-Low êµ¬ë¶„
+    lisa.Turbidity$group <- NA # ìƒˆë¡œìš´ ì—´ ìƒì„±
+    lisa.Turbidity$group[lisa.Turbidity$Z.Ii > 0 & lisa.Turbidity$Ii > 0] <- "High-High" # High-High ì¡°ê±´
+    lisa.Turbidity$group[lisa.Turbidity$Z.Ii > 0 & lisa.Turbidity$Ii < 0] <- "High-Low" # Low-Low ì¡°ê±´
+    lisa.Turbidity$group[lisa.Turbidity$Z.Ii < 0 & lisa.Turbidity$Ii > 0] <- "Low-High" # High-Low ì¡°ê±´
+    lisa.Turbidity$group[lisa.Turbidity$Z.Ii < 0 & lisa.Turbidity$Ii < 0] <- "Low-Low" # Low-High ì¡°ê±´
     head(lisa.Turbidity)
     names(lisa.Turbidity)[5] <- c("p.value")
     head(lisa.Turbidity)
@@ -1050,10 +1050,10 @@ count
     names(ad.cn)[40] <- c("Turbidity.lisa.r")
   }
   
-  # write.csv(ad.cn, "Ãæ³², Æò±ÕÈÄ¸®»ç(k5)(¼öÁúÀÎÀÚµé).csv", na="-", fileEncoding = "CP949")
+  # write.csv(ad.cn, "ì¶©ë‚¨, í‰ê· í›„ë¦¬ì‚¬(k5)(ìˆ˜ì§ˆì¸ìë“¤).csv", na="-", fileEncoding = "CP949")
   
-  ## ±¹°¡°ø°£Á¤º¸Æ÷ÅĞ¿¡¼­ ÃæÃ»³²µµ À¾¸éµ¿ ÆÄÀÏ ´Ù¿î·Îµå(·Î±×ÀÎ ÇÊ¿ä) ##
-  ##### ÃæÃ»³²µµ À¾¸éµ¿ Áöµµ
+  ## êµ­ê°€ê³µê°„ì •ë³´í¬í„¸ì—ì„œ ì¶©ì²­ë‚¨ë„ ìë©´ë™ íŒŒì¼ ë‹¤ìš´ë¡œë“œ(ë¡œê·¸ì¸ í•„ìš”) ##
+  ##### ì¶©ì²­ë‚¨ë„ ìë©´ë™ ì§€ë„
   map_cn = readOGR("LSMD_ADM_SECT_UMD_44.shp")                 
   head(map_cn)
   class(map_cn)
@@ -1063,35 +1063,35 @@ count
                          sub = NA,
                          mark = TRUE,
                          toRaw = FALSE)
-  # ÁÂÇ¥ º¯È¯
+  # ì¢Œí‘œ ë³€í™˜
   to.crs <- "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs"  
   df_map_cn <- spTransform(map_cn, to.crs)
   
-  # fortifyÇÔ¼ö´Â shpÆÄÀÏÀ» RÀÇ µ¥ÀÌÅÍÇÁ·¹ÀÓÀ¸·Î ¹Ù²ãÁØ´Ù(ÁÂÇ¥ º¯È¯ ÈÄ fortifyÇÏ±â) 
+  # fortifyí•¨ìˆ˜ëŠ” shpíŒŒì¼ì„ Rì˜ ë°ì´í„°í”„ë ˆì„ìœ¼ë¡œ ë°”ê¿”ì¤€ë‹¤(ì¢Œí‘œ ë³€í™˜ í›„ fortifyí•˜ê¸°) 
   df_map_cn = fortify(df_map_cn)   
   head(df_map_cn)
-  # ÃæÃ»³²µµ À¾¸éµ¿ Áöµµ ½Ã°¢È­
+  # ì¶©ì²­ë‚¨ë„ ìë©´ë™ ì§€ë„ ì‹œê°í™”
   # ggplot(data=df_map_cn, aes(x=long, y=lat, group=group))+
   #   geom_polygon(fill='white', color='black')
   
   
-  ##### µ¥ÀÌÅÍ ÇÕÄ¡±â
+  ##### ë°ì´í„° í•©ì¹˜ê¸°
   df_map_cn1 = fortify(map_cn)
   head(map_cn)
   map_cn_info = map_cn@data
   head(map_cn_info)
   
-  # 0ºÎÅÍ ½ÃÀÛÇÏ´Â ¿¬¼ÓÀûÀÎ ÀÎµ¦½º °ª ¸¸µé±â
+  # 0ë¶€í„° ì‹œì‘í•˜ëŠ” ì—°ì†ì ì¸ ì¸ë±ìŠ¤ ê°’ ë§Œë“¤ê¸°
   map_cn_info[, "id"] = (1:nrow(map_cn_info)) - 1
-  # EMD_NMÀ» À¾¸éµ¿À¸·Î ÀÌ¸§ ¹Ù²Ù±â
-  names(map_cn_info)[2] <- c("À¾¸éµ¿")
+  # EMD_NMì„ ìë©´ë™ìœ¼ë¡œ ì´ë¦„ ë°”ê¾¸ê¸°
+  names(map_cn_info)[2] <- c("ìë©´ë™")
   head(map_cn_info)
-  # df_map_cn$id ¹®ÀÚ¿­À» ¼ıÀÚ·Î º¯È¯
+  # df_map_cn$id ë¬¸ìì—´ì„ ìˆ«ìë¡œ ë³€í™˜
   class(df_map_cn$id)
   class(map_cn_info$id)
   df_map_cn$id = as.numeric(df_map_cn$id)
   #==============================================
-  sg_chung = read.csv("Ãæ³², Æò±ÕÈÄ¸®»ç(k5)(¼öÁúÀÎÀÚµé).csv", header=T, as.is=T, row.names = 1, na="-", fileEncoding = "CP949", encoding = "UTF-8")
+  sg_chung = read.csv("ì¶©ë‚¨, í‰ê· í›„ë¦¬ì‚¬(k5)(ìˆ˜ì§ˆì¸ìë“¤).csv", header=T, as.is=T, row.names = 1, na="-", fileEncoding = "CP949", encoding = "UTF-8")
   
   head(sg_chung)
   str(sg_chung)
@@ -1099,14 +1099,14 @@ count
   
   head(map_cn_info)
   
-  d <-left_join(map_cn_info,sg_chung, by='À¾¸éµ¿')
+  d <-left_join(map_cn_info,sg_chung, by='ìë©´ë™')
   
   head(d)
   
   ##### left_join() 
   head(df_map_cn)
   head(d)
-  c<-left_join(df_map_cn,d, by='id')  # left_join(x,y, by='')¿¡¼­ x,y À§Ä¡ ¼ø¼­¿¡ µû¶ó µ¥ÀÌÅÍ ´Ù¸£°Ô ³ª¿Â´Ù
+  c<-left_join(df_map_cn,d, by='id')  # left_join(x,y, by='')ì—ì„œ x,y ìœ„ì¹˜ ìˆœì„œì— ë”°ë¼ ë°ì´í„° ë‹¤ë¥´ê²Œ ë‚˜ì˜¨ë‹¤
   #h<-merge(d,df_map_cn, by='id')
   head(c)
   #head(h)
@@ -1114,7 +1114,7 @@ count
   head(df_map_cn)
   
   #pH
-  ggplot()+ geom_polygon(data=c, aes(x=long, y=lat, group=group, fill=pH.lisa.p), color='black')+ # Total(ÃÑÀÎ±¸¼ö)
+  ggplot()+ geom_polygon(data=c, aes(x=long, y=lat, group=group, fill=pH.lisa.p), color='black')+ # Total(ì´ì¸êµ¬ìˆ˜)
     theme_bw()+
     ylab("latitude")+
     xlab("longitude")+
@@ -1130,12 +1130,12 @@ count
     scale_fill_manual(values = c("green4", "grey","black"),
                       labels = c("Significant", "Not Significant", "No Samples"))
   
-  # High-High´Â local moran¡¯s index¿Í z-score°¡ ¸ğµÎ ¾ç¼ö
-  # Low-Low´Â local moran¡¯s index¿Í z-score°¡ ¸ğµÎ À½¼ö
-  # High-Low´Â local moran¡¯s index´Â À½¼öÀÌ°í z-score´Â ¾ç¼ö
-  # Low-High´Â local moran¡¯s index´Â ¾ç¼öÀÌ°í z-score´Â À½¼ö
+  # High-HighëŠ” local moranâ€™s indexì™€ z-scoreê°€ ëª¨ë‘ ì–‘ìˆ˜
+  # Low-LowëŠ” local moranâ€™s indexì™€ z-scoreê°€ ëª¨ë‘ ìŒìˆ˜
+  # High-LowëŠ” local moranâ€™s indexëŠ” ìŒìˆ˜ì´ê³  z-scoreëŠ” ì–‘ìˆ˜
+  # Low-HighëŠ” local moranâ€™s indexëŠ” ì–‘ìˆ˜ì´ê³  z-scoreëŠ” ìŒìˆ˜
   
-  ggplot()+ geom_polygon(data=c, aes(x=long, y=lat, group=group, fill=pH.lisa.r), color='black')+ # Total(ÃÑÀÎ±¸¼ö)
+  ggplot()+ geom_polygon(data=c, aes(x=long, y=lat, group=group, fill=pH.lisa.r), color='black')+ # Total(ì´ì¸êµ¬ìˆ˜)
     theme_bw()+
     ylab("latitude")+
     xlab("longitude")+
@@ -1152,7 +1152,7 @@ count
                       labels = c("High-High", "Low-Low", "Not Significant", "No samples"))
   #================================
   #NO3.N
-  ggplot()+ geom_polygon(data=c, aes(x=long, y=lat, group=group, fill=NO3.N.lisa.p), color='black')+ # Total(ÃÑÀÎ±¸¼ö)
+  ggplot()+ geom_polygon(data=c, aes(x=long, y=lat, group=group, fill=NO3.N.lisa.p), color='black')+ # Total(ì´ì¸êµ¬ìˆ˜)
     theme_bw()+
     ylab("latitude")+
     xlab("longitude")+
@@ -1168,12 +1168,12 @@ count
     scale_fill_manual(values = c("green4", "grey","black"),
                       labels = c("Significant", "Not Significant", "No Samples"))
   
-  # High-High´Â local moran¡¯s index¿Í z-score°¡ ¸ğµÎ ¾ç¼ö
-  # Low-Low´Â local moran¡¯s index¿Í z-score°¡ ¸ğµÎ À½¼ö
-  # High-Low´Â local moran¡¯s index´Â À½¼öÀÌ°í z-score´Â ¾ç¼ö
-  # Low-High´Â local moran¡¯s index´Â ¾ç¼öÀÌ°í z-score´Â À½¼ö
+  # High-HighëŠ” local moranâ€™s indexì™€ z-scoreê°€ ëª¨ë‘ ì–‘ìˆ˜
+  # Low-LowëŠ” local moranâ€™s indexì™€ z-scoreê°€ ëª¨ë‘ ìŒìˆ˜
+  # High-LowëŠ” local moranâ€™s indexëŠ” ìŒìˆ˜ì´ê³  z-scoreëŠ” ì–‘ìˆ˜
+  # Low-HighëŠ” local moranâ€™s indexëŠ” ì–‘ìˆ˜ì´ê³  z-scoreëŠ” ìŒìˆ˜
   
-  ggplot()+ geom_polygon(data=c, aes(x=long, y=lat, group=group, fill=NO3.N.lisa.r), color='black')+ # Total(ÃÑÀÎ±¸¼ö)
+  ggplot()+ geom_polygon(data=c, aes(x=long, y=lat, group=group, fill=NO3.N.lisa.r), color='black')+ # Total(ì´ì¸êµ¬ìˆ˜)
     theme_bw()+
     ylab("latitude")+
     xlab("longitude")+
@@ -1190,7 +1190,7 @@ count
                       labels = c("High-High", "Low-Low", "Not Significant", "No samples"))
   #================================
   #F
-  ggplot()+ geom_polygon(data=c, aes(x=long, y=lat, group=group, fill=F.lisa.p), color='black')+ # Total(ÃÑÀÎ±¸¼ö)
+  ggplot()+ geom_polygon(data=c, aes(x=long, y=lat, group=group, fill=F.lisa.p), color='black')+ # Total(ì´ì¸êµ¬ìˆ˜)
     theme_bw()+
     ylab("latitude")+
     xlab("longitude")+
@@ -1206,12 +1206,12 @@ count
     scale_fill_manual(values = c("green4", "grey","black"),
                       labels = c("Significant", "Not Significant", "No Samples"))
   
-  # High-High´Â local moran¡¯s index¿Í z-score°¡ ¸ğµÎ ¾ç¼ö
-  # Low-Low´Â local moran¡¯s index¿Í z-score°¡ ¸ğµÎ À½¼ö
-  # High-Low´Â local moran¡¯s index´Â À½¼öÀÌ°í z-score´Â ¾ç¼ö
-  # Low-High´Â local moran¡¯s index´Â ¾ç¼öÀÌ°í z-score´Â À½¼ö
+  # High-HighëŠ” local moranâ€™s indexì™€ z-scoreê°€ ëª¨ë‘ ì–‘ìˆ˜
+  # Low-LowëŠ” local moranâ€™s indexì™€ z-scoreê°€ ëª¨ë‘ ìŒìˆ˜
+  # High-LowëŠ” local moranâ€™s indexëŠ” ìŒìˆ˜ì´ê³  z-scoreëŠ” ì–‘ìˆ˜
+  # Low-HighëŠ” local moranâ€™s indexëŠ” ì–‘ìˆ˜ì´ê³  z-scoreëŠ” ìŒìˆ˜
   
-  ggplot()+ geom_polygon(data=c, aes(x=long, y=lat, group=group, fill=F.lisa.r), color='black')+ # Total(ÃÑÀÎ±¸¼ö)
+  ggplot()+ geom_polygon(data=c, aes(x=long, y=lat, group=group, fill=F.lisa.r), color='black')+ # Total(ì´ì¸êµ¬ìˆ˜)
     theme_bw()+
     ylab("latitude")+
     xlab("longitude")+
@@ -1229,7 +1229,7 @@ count
   
   #================================
   #Al
-  ggplot()+ geom_polygon(data=c, aes(x=long, y=lat, group=group, fill=Al.lisa.p), color='black')+ # Total(ÃÑÀÎ±¸¼ö)
+  ggplot()+ geom_polygon(data=c, aes(x=long, y=lat, group=group, fill=Al.lisa.p), color='black')+ # Total(ì´ì¸êµ¬ìˆ˜)
     theme_bw()+
     ylab("latitude")+
     xlab("longitude")+
@@ -1245,12 +1245,12 @@ count
     scale_fill_manual(values = c("green4", "grey","black"),
                       labels = c("Significant", "Not Significant", "No Samples"))
   
-  # High-High´Â local moran¡¯s index¿Í z-score°¡ ¸ğµÎ ¾ç¼ö
-  # Low-Low´Â local moran¡¯s index¿Í z-score°¡ ¸ğµÎ À½¼ö
-  # High-Low´Â local moran¡¯s index´Â À½¼öÀÌ°í z-score´Â ¾ç¼ö
-  # Low-High´Â local moran¡¯s index´Â ¾ç¼öÀÌ°í z-score´Â À½¼ö
+  # High-HighëŠ” local moranâ€™s indexì™€ z-scoreê°€ ëª¨ë‘ ì–‘ìˆ˜
+  # Low-LowëŠ” local moranâ€™s indexì™€ z-scoreê°€ ëª¨ë‘ ìŒìˆ˜
+  # High-LowëŠ” local moranâ€™s indexëŠ” ìŒìˆ˜ì´ê³  z-scoreëŠ” ì–‘ìˆ˜
+  # Low-HighëŠ” local moranâ€™s indexëŠ” ì–‘ìˆ˜ì´ê³  z-scoreëŠ” ìŒìˆ˜
   
-  ggplot()+ geom_polygon(data=c, aes(x=long, y=lat, group=group, fill=Al.lisa.r), color='black')+ # Total(ÃÑÀÎ±¸¼ö)
+  ggplot()+ geom_polygon(data=c, aes(x=long, y=lat, group=group, fill=Al.lisa.r), color='black')+ # Total(ì´ì¸êµ¬ìˆ˜)
     theme_bw()+
     ylab("latitude")+
     xlab("longitude")+
@@ -1267,7 +1267,7 @@ count
                       labels = c("Low-Low", "Not Significant", "No samples", "No samples"))
   
   #As
-  ggplot()+ geom_polygon(data=c, aes(x=long, y=lat, group=group, fill=As.lisa.p), color='black')+ # Total(ÃÑÀÎ±¸¼ö)
+  ggplot()+ geom_polygon(data=c, aes(x=long, y=lat, group=group, fill=As.lisa.p), color='black')+ # Total(ì´ì¸êµ¬ìˆ˜)
     theme_bw()+
     ylab("latitude")+
     xlab("longitude")+
@@ -1283,12 +1283,12 @@ count
     scale_fill_manual(values = c("green4", "grey","black"),
                       labels = c("Significant", "Not Significant", "No Samples"))
   
-  # High-High´Â local moran¡¯s index¿Í z-score°¡ ¸ğµÎ ¾ç¼ö
-  # Low-Low´Â local moran¡¯s index¿Í z-score°¡ ¸ğµÎ À½¼ö
-  # High-Low´Â local moran¡¯s index´Â À½¼öÀÌ°í z-score´Â ¾ç¼ö
-  # Low-High´Â local moran¡¯s index´Â ¾ç¼öÀÌ°í z-score´Â À½¼ö
+  # High-HighëŠ” local moranâ€™s indexì™€ z-scoreê°€ ëª¨ë‘ ì–‘ìˆ˜
+  # Low-LowëŠ” local moranâ€™s indexì™€ z-scoreê°€ ëª¨ë‘ ìŒìˆ˜
+  # High-LowëŠ” local moranâ€™s indexëŠ” ìŒìˆ˜ì´ê³  z-scoreëŠ” ì–‘ìˆ˜
+  # Low-HighëŠ” local moranâ€™s indexëŠ” ì–‘ìˆ˜ì´ê³  z-scoreëŠ” ìŒìˆ˜
   
-  ggplot()+ geom_polygon(data=c, aes(x=long, y=lat, group=group, fill=As.lisa.r), color='black')+ # Total(ÃÑÀÎ±¸¼ö)
+  ggplot()+ geom_polygon(data=c, aes(x=long, y=lat, group=group, fill=As.lisa.r), color='black')+ # Total(ì´ì¸êµ¬ìˆ˜)
     theme_bw()+
     ylab("latitude")+
     xlab("longitude")+
@@ -1306,7 +1306,7 @@ count
   
   
   #Mn
-  ggplot()+ geom_polygon(data=c, aes(x=long, y=lat, group=group, fill=Mn.lisa.p), color='black')+ # Total(ÃÑÀÎ±¸¼ö)
+  ggplot()+ geom_polygon(data=c, aes(x=long, y=lat, group=group, fill=Mn.lisa.p), color='black')+ # Total(ì´ì¸êµ¬ìˆ˜)
     theme_bw()+
     ylab("latitude")+
     xlab("longitude")+
@@ -1321,11 +1321,11 @@ count
     guides(fill=guide_legend(title=""))+
     scale_fill_manual(values = c("green4", "grey","black"),
                       labels = c("Significant", "Not Significant", "No Samples"))
-  # High-High´Â local moran¡¯s index¿Í z-score°¡ ¸ğµÎ ¾ç¼ö
-  # Low-Low´Â local moran¡¯s index¿Í z-score°¡ ¸ğµÎ À½¼ö
-  # High-Low´Â local moran¡¯s index´Â À½¼öÀÌ°í z-score´Â ¾ç¼ö
-  # Low-High´Â local moran¡¯s index´Â ¾ç¼öÀÌ°í z-score´Â À½¼ö
-  ggplot()+ geom_polygon(data=c, aes(x=long, y=lat, group=group, fill=Mn.lisa.r), color='black')+ # Total(ÃÑÀÎ±¸¼ö)
+  # High-HighëŠ” local moranâ€™s indexì™€ z-scoreê°€ ëª¨ë‘ ì–‘ìˆ˜
+  # Low-LowëŠ” local moranâ€™s indexì™€ z-scoreê°€ ëª¨ë‘ ìŒìˆ˜
+  # High-LowëŠ” local moranâ€™s indexëŠ” ìŒìˆ˜ì´ê³  z-scoreëŠ” ì–‘ìˆ˜
+  # Low-HighëŠ” local moranâ€™s indexëŠ” ì–‘ìˆ˜ì´ê³  z-scoreëŠ” ìŒìˆ˜
+  ggplot()+ geom_polygon(data=c, aes(x=long, y=lat, group=group, fill=Mn.lisa.r), color='black')+ # Total(ì´ì¸êµ¬ìˆ˜)
     theme_bw()+
     ylab("latitude")+
     xlab("longitude")+
@@ -1343,7 +1343,7 @@ count
   
   
   #Fe
-  ggplot()+ geom_polygon(data=c, aes(x=long, y=lat, group=group, fill=Fe.lisa.p), color='black')+ # Total(ÃÑÀÎ±¸¼ö)
+  ggplot()+ geom_polygon(data=c, aes(x=long, y=lat, group=group, fill=Fe.lisa.p), color='black')+ # Total(ì´ì¸êµ¬ìˆ˜)
     theme_bw()+
     ylab("latitude")+
     xlab("longitude")+
@@ -1358,11 +1358,11 @@ count
     guides(fill=guide_legend(title=""))+
     scale_fill_manual(values = c("green4", "grey","black"),
                       labels = c("Significant", "Not Significant", "No Samples"))
-  # High-High´Â local moran¡¯s index¿Í z-score°¡ ¸ğµÎ ¾ç¼ö
-  # Low-Low´Â local moran¡¯s index¿Í z-score°¡ ¸ğµÎ À½¼ö
-  # High-Low´Â local moran¡¯s index´Â À½¼öÀÌ°í z-score´Â ¾ç¼ö
-  # Low-High´Â local moran¡¯s index´Â ¾ç¼öÀÌ°í z-score´Â À½¼ö
-  ggplot()+ geom_polygon(data=c, aes(x=long, y=lat, group=group, fill=Fe.lisa.r), color='black')+ # Total(ÃÑÀÎ±¸¼ö)
+  # High-HighëŠ” local moranâ€™s indexì™€ z-scoreê°€ ëª¨ë‘ ì–‘ìˆ˜
+  # Low-LowëŠ” local moranâ€™s indexì™€ z-scoreê°€ ëª¨ë‘ ìŒìˆ˜
+  # High-LowëŠ” local moranâ€™s indexëŠ” ìŒìˆ˜ì´ê³  z-scoreëŠ” ì–‘ìˆ˜
+  # Low-HighëŠ” local moranâ€™s indexëŠ” ì–‘ìˆ˜ì´ê³  z-scoreëŠ” ìŒìˆ˜
+  ggplot()+ geom_polygon(data=c, aes(x=long, y=lat, group=group, fill=Fe.lisa.r), color='black')+ # Total(ì´ì¸êµ¬ìˆ˜)
     theme_bw()+
     ylab("latitude")+
     xlab("longitude")+
@@ -1379,7 +1379,7 @@ count
                       labels = c("High-High", "Low-Low", "Not Significant", "No samples"))
   
   #Turbidity
-  ggplot()+ geom_polygon(data=c, aes(x=long, y=lat, group=group, fill=Turbidity.lisa.p), color='black')+ # Total(ÃÑÀÎ±¸¼ö)
+  ggplot()+ geom_polygon(data=c, aes(x=long, y=lat, group=group, fill=Turbidity.lisa.p), color='black')+ # Total(ì´ì¸êµ¬ìˆ˜)
     theme_bw()+
     ylab("latitude")+
     xlab("longitude")+
@@ -1394,11 +1394,11 @@ count
     guides(fill=guide_legend(title=""))+
     scale_fill_manual(values = c("green4", "grey","black"),
                       labels = c("Significant", "Not Significant", "No Samples"))
-  # High-High´Â local moran¡¯s index¿Í z-score°¡ ¸ğµÎ ¾ç¼ö
-  # Low-Low´Â local moran¡¯s index¿Í z-score°¡ ¸ğµÎ À½¼ö
-  # High-Low´Â local moran¡¯s index´Â À½¼öÀÌ°í z-score´Â ¾ç¼ö
-  # Low-High´Â local moran¡¯s index´Â ¾ç¼öÀÌ°í z-score´Â À½¼ö
-  ggplot()+ geom_polygon(data=c, aes(x=long, y=lat, group=group, fill=Turbidity.lisa.r), color='black')+ # Total(ÃÑÀÎ±¸¼ö)
+  # High-HighëŠ” local moranâ€™s indexì™€ z-scoreê°€ ëª¨ë‘ ì–‘ìˆ˜
+  # Low-LowëŠ” local moranâ€™s indexì™€ z-scoreê°€ ëª¨ë‘ ìŒìˆ˜
+  # High-LowëŠ” local moranâ€™s indexëŠ” ìŒìˆ˜ì´ê³  z-scoreëŠ” ì–‘ìˆ˜
+  # Low-HighëŠ” local moranâ€™s indexëŠ” ì–‘ìˆ˜ì´ê³  z-scoreëŠ” ìŒìˆ˜
+  ggplot()+ geom_polygon(data=c, aes(x=long, y=lat, group=group, fill=Turbidity.lisa.r), color='black')+ # Total(ì´ì¸êµ¬ìˆ˜)
     theme_bw()+
     ylab("latitude")+
     xlab("longitude")+
@@ -1415,9 +1415,9 @@ count
                       labels = c("High-High", "Low-Low", "Not Significant", "No samples"))
 }
 #===============================================================================
-#Correlation length - ÁØ¹ıÄ¢(variogram)-ÃæÃ»³²µµ ÀüÃ¼ µ¥ÀÌÅÍ·Î (±Ùµ¥ Global moran°úÀÇ ºñ±³¶ó¼­ ÀÌ°Ô ¸Â´Âµí?)
+#Correlation length - ì¤€ë²•ì¹™(variogram)-ì¶©ì²­ë‚¨ë„ ì „ì²´ ë°ì´í„°ë¡œ (ê·¼ë° Global moranê³¼ì˜ ë¹„êµë¼ì„œ ì´ê²Œ ë§ëŠ”ë“¯?)
 {
-  dat <- read.csv("¾È½ÉÁöÇÏ¼ö(17-22, GQI, HRA)GPS,WAWQI¼öÁ¤.csv", na="-", fileEncoding = "CP949", encoding = "UTF-8")
+  dat <- read.csv("ì•ˆì‹¬ì§€í•˜ìˆ˜(17-22, GQI, HRA)GPS,WAWQIìˆ˜ì •.csv", na="-", fileEncoding = "CP949", encoding = "UTF-8")
   {
     dat$No. = as.numeric(dat$No.)
     dat$Year = as.numeric(dat$Year)
@@ -1426,30 +1426,30 @@ count
     dat$GQI = as.numeric(dat$GQI)
     dat$General_Bacteria = as.numeric(dat$General_Bacteria)
   }
-  dat = subset(dat, dat$½Ãµµ == "ÃæÃ»³²µµ")
+  dat = subset(dat, dat$ì‹œë„ == "ì¶©ì²­ë‚¨ë„")
   ad = subset(dat, dat$Age == "Adult")
   ch = subset(dat, dat$Age == "Child")
   
-  #ÀÏ´Ü 0°ªµéÀ» ´Ù ¼öÁ¤ => °ø°£ºĞ¼®À» À§ÇØ¼± 0°ª X
+  #ì¼ë‹¨ 0ê°’ë“¤ì„ ë‹¤ ìˆ˜ì • => ê³µê°„ë¶„ì„ì„ ìœ„í•´ì„  0ê°’ X
   ad[c(17:56)][ad[c(17:56)]==0]<-0.000001
   ch[c(17:56)][ch[c(17:56)]==0]<-0.000001
   str(ad)
-  ad.net = ad[complete.cases(ad$longitude), ] #NA´Â Á¦°Å! (3°³ Çà Á¦°Å)
-  ch.net = ch[complete.cases(ch$longitude), ] #NA´Â Á¦°Å! (3°³ Çà Á¦°Å)
+  ad.net = ad[complete.cases(ad$longitude), ] #NAëŠ” ì œê±°! (3ê°œ í–‰ ì œê±°)
+  ch.net = ch[complete.cases(ch$longitude), ] #NAëŠ” ì œê±°! (3ê°œ í–‰ ì œê±°)
   
-  #µ¥ÀÌÅÍ Ç¥ÁØÈ­ (xÃà º¯¼ö= (¼öÁúÀÎÀÚ ³óµµ-Æò±Õ)/Ç¥ÁØÆíÂ÷) Áï z-score »ç¿ë -> Æò±ÕÀ» 0À¸·Î Ç¥ÁØÆíÂ÷¸¦ 1·Î ¸¸µç´Ù
+  #ë°ì´í„° í‘œì¤€í™” (xì¶• ë³€ìˆ˜= (ìˆ˜ì§ˆì¸ì ë†ë„-í‰ê· )/í‘œì¤€í¸ì°¨) ì¦‰ z-score ì‚¬ìš© -> í‰ê· ì„ 0ìœ¼ë¡œ í‘œì¤€í¸ì°¨ë¥¼ 1ë¡œ ë§Œë“ ë‹¤
   #Adult
   ad.net.s = scale(ad.net[c(17,19,20,22,23:56)])
   ad.net.s = as.data.frame(ad.net.s)
   ad.net = cbind(ad.net[c(1:11)], ad.net.s)
-  summary(ad.net$General_Bacteria) #Ç¥ÁØÈ­°¡ Àß µÆ³ª È®ÀÎ
-  summary(ad.net$HQ.total) #Ç¥ÁØÈ­°¡ Àß µÆ³ª È®ÀÎ
+  summary(ad.net$General_Bacteria) #í‘œì¤€í™”ê°€ ì˜ ëë‚˜ í™•ì¸
+  summary(ad.net$HQ.total) #í‘œì¤€í™”ê°€ ì˜ ëë‚˜ í™•ì¸
   #Child
   ch.net.s = scale(ch.net[c(17,19,20,22,23:56)])
   ch.net.s = as.data.frame(ch.net.s)
   ch.net = cbind(ch.net[c(1:11)], ch.net.s)
-  summary(ch.net$General_Bacteria) #Ç¥ÁØÈ­°¡ Àß µÆ³ª È®ÀÎ
-  summary(ch.net$HQ.total) #Ç¥ÁØÈ­°¡ Àß µÆ³ª È®ÀÎ
+  summary(ch.net$General_Bacteria) #í‘œì¤€í™”ê°€ ì˜ ëë‚˜ í™•ì¸
+  summary(ch.net$HQ.total) #í‘œì¤€í™”ê°€ ì˜ ëë‚˜ í™•ì¸
   
   #Good
   head(ad.net)
@@ -1457,49 +1457,49 @@ count
   
   # ==============================================================================
   #NO3-N
-  # µ¥ÀÌÅÍ ÇÁ·¹ÀÓ¿¡¼­ À§Ä¡¿Í ¼öÁú ÁöÇ¥¸¦ ¼±ÅÃÇÕ´Ï´Ù
+  # ë°ì´í„° í”„ë ˆì„ì—ì„œ ìœ„ì¹˜ì™€ ìˆ˜ì§ˆ ì§€í‘œë¥¼ ì„ íƒí•©ë‹ˆë‹¤
   data <- ad.net[, c("longitude", "latitude", "NO3.N")]
   head(data)
   
-  # µ¥ÀÌÅÍ ÇÁ·¹ÀÓÀ» SpatialPointsDataFrameÀ¸·Î º¯È¯ÇÕ´Ï´Ù
+  # ë°ì´í„° í”„ë ˆì„ì„ SpatialPointsDataFrameìœ¼ë¡œ ë³€í™˜í•©ë‹ˆë‹¤
   coordinates(data) <- ~longitude+latitude
   
-  # ÁØ¹ıÄ¢À» °è»êÇÕ´Ï´Ù
+  # ì¤€ë²•ì¹™ì„ ê³„ì‚°í•©ë‹ˆë‹¤
   v <- variogram(NO3.N~1, data = data)
   
-  # ÁØ¹ıÄ¢À» ±×·¡ÇÁ·Î ±×¸³´Ï´Ù
+  # ì¤€ë²•ì¹™ì„ ê·¸ë˜í”„ë¡œ ê·¸ë¦½ë‹ˆë‹¤
   plot(v)
   
-  # ÁØ¹ıÄ¢¿¡¼­ »ó°ü ±æÀÌ¸¦ ÃßÁ¤ÇÕ´Ï´Ù
-  # # »ó°ü ±æÀÌ´Â ÁØ¹ıÄ¢ÀÌ Æ¯Á¤ ÀÓ°è°ª¿¡ µµ´ŞÇÏ´Â °Å¸®·Î Á¤ÀÇµË´Ï´Ù
+  # ì¤€ë²•ì¹™ì—ì„œ ìƒê´€ ê¸¸ì´ë¥¼ ì¶”ì •í•©ë‹ˆë‹¤
+  # # ìƒê´€ ê¸¸ì´ëŠ” ì¤€ë²•ì¹™ì´ íŠ¹ì • ì„ê³„ê°’ì— ë„ë‹¬í•˜ëŠ” ê±°ë¦¬ë¡œ ì •ì˜ë©ë‹ˆë‹¤
   # threshold <- 0.05
   
-  # ÁØ¹ıÄ¢ÀÇ 95% ¹éºĞÀ§¼ö¸¦ ÀÓ°è°ªÀ¸·Î ¼³Á¤
+  # ì¤€ë²•ì¹™ì˜ 95% ë°±ë¶„ìœ„ìˆ˜ë¥¼ ì„ê³„ê°’ìœ¼ë¡œ ì„¤ì •
   threshold <- quantile(v$gamma, 0.95)
   cor_length <- min(v$dist[v$gamma > threshold])
-  head(cor_length) #´ÜÀ§°¡ degree
+  head(cor_length) #ë‹¨ìœ„ê°€ degree
   cor_length_km <- cor_length * 111.32
-  head(cor_length_km) #´ÜÀ§ km
+  head(cor_length_km) #ë‹¨ìœ„ km
   #===============================================================================
   #F
-  # µ¥ÀÌÅÍ ÇÁ·¹ÀÓ¿¡¼­ À§Ä¡¿Í ¼öÁú ÁöÇ¥¸¦ ¼±ÅÃÇÕ´Ï´Ù
+  # ë°ì´í„° í”„ë ˆì„ì—ì„œ ìœ„ì¹˜ì™€ ìˆ˜ì§ˆ ì§€í‘œë¥¼ ì„ íƒí•©ë‹ˆë‹¤
   data <- ad.net[, c("longitude", "latitude", "F")]
   head(data)
   
-  # µ¥ÀÌÅÍ ÇÁ·¹ÀÓÀ» SpatialPointsDataFrameÀ¸·Î º¯È¯ÇÕ´Ï´Ù
+  # ë°ì´í„° í”„ë ˆì„ì„ SpatialPointsDataFrameìœ¼ë¡œ ë³€í™˜í•©ë‹ˆë‹¤
   coordinates(data) <- ~longitude+latitude
   
-  # ÁØ¹ıÄ¢À» °è»êÇÕ´Ï´Ù
+  # ì¤€ë²•ì¹™ì„ ê³„ì‚°í•©ë‹ˆë‹¤
   v <- variogram(F~1, data = data)
   
-  # ÁØ¹ıÄ¢À» ±×·¡ÇÁ·Î ±×¸³´Ï´Ù
+  # ì¤€ë²•ì¹™ì„ ê·¸ë˜í”„ë¡œ ê·¸ë¦½ë‹ˆë‹¤
   plot(v)
   
-  # ÁØ¹ıÄ¢¿¡¼­ »ó°ü ±æÀÌ¸¦ ÃßÁ¤ÇÕ´Ï´Ù
-  # # »ó°ü ±æÀÌ´Â ÁØ¹ıÄ¢ÀÌ Æ¯Á¤ ÀÓ°è°ª¿¡ µµ´ŞÇÏ´Â °Å¸®·Î Á¤ÀÇµË´Ï´Ù
+  # ì¤€ë²•ì¹™ì—ì„œ ìƒê´€ ê¸¸ì´ë¥¼ ì¶”ì •í•©ë‹ˆë‹¤
+  # # ìƒê´€ ê¸¸ì´ëŠ” ì¤€ë²•ì¹™ì´ íŠ¹ì • ì„ê³„ê°’ì— ë„ë‹¬í•˜ëŠ” ê±°ë¦¬ë¡œ ì •ì˜ë©ë‹ˆë‹¤
   # threshold <- 0.05
   
-  # ÁØ¹ıÄ¢ÀÇ 95% ¹éºĞÀ§¼ö¸¦ ÀÓ°è°ªÀ¸·Î ¼³Á¤
+  # ì¤€ë²•ì¹™ì˜ 95% ë°±ë¶„ìœ„ìˆ˜ë¥¼ ì„ê³„ê°’ìœ¼ë¡œ ì„¤ì •
   threshold <- quantile(v$gamma, 0.95)
   cor_length <- min(v$dist[v$gamma > threshold])
   head(cor_length)
@@ -1507,24 +1507,24 @@ count
   head(cor_length_km)
   #===============================================================================
   #Al
-  # µ¥ÀÌÅÍ ÇÁ·¹ÀÓ¿¡¼­ À§Ä¡¿Í ¼öÁú ÁöÇ¥¸¦ ¼±ÅÃÇÕ´Ï´Ù
+  # ë°ì´í„° í”„ë ˆì„ì—ì„œ ìœ„ì¹˜ì™€ ìˆ˜ì§ˆ ì§€í‘œë¥¼ ì„ íƒí•©ë‹ˆë‹¤
   data <- ad.net[, c("longitude", "latitude", "Al")]
   head(data)
   
-  # µ¥ÀÌÅÍ ÇÁ·¹ÀÓÀ» SpatialPointsDataFrameÀ¸·Î º¯È¯ÇÕ´Ï´Ù
+  # ë°ì´í„° í”„ë ˆì„ì„ SpatialPointsDataFrameìœ¼ë¡œ ë³€í™˜í•©ë‹ˆë‹¤
   coordinates(data) <- ~longitude+latitude
   
-  # ÁØ¹ıÄ¢À» °è»êÇÕ´Ï´Ù
+  # ì¤€ë²•ì¹™ì„ ê³„ì‚°í•©ë‹ˆë‹¤
   v <- variogram(Al~1, data = data)
   
-  # ÁØ¹ıÄ¢À» ±×·¡ÇÁ·Î ±×¸³´Ï´Ù
+  # ì¤€ë²•ì¹™ì„ ê·¸ë˜í”„ë¡œ ê·¸ë¦½ë‹ˆë‹¤
   plot(v)
   
-  # ÁØ¹ıÄ¢¿¡¼­ »ó°ü ±æÀÌ¸¦ ÃßÁ¤ÇÕ´Ï´Ù
-  # # »ó°ü ±æÀÌ´Â ÁØ¹ıÄ¢ÀÌ Æ¯Á¤ ÀÓ°è°ª¿¡ µµ´ŞÇÏ´Â °Å¸®·Î Á¤ÀÇµË´Ï´Ù
+  # ì¤€ë²•ì¹™ì—ì„œ ìƒê´€ ê¸¸ì´ë¥¼ ì¶”ì •í•©ë‹ˆë‹¤
+  # # ìƒê´€ ê¸¸ì´ëŠ” ì¤€ë²•ì¹™ì´ íŠ¹ì • ì„ê³„ê°’ì— ë„ë‹¬í•˜ëŠ” ê±°ë¦¬ë¡œ ì •ì˜ë©ë‹ˆë‹¤
   # threshold <- 0.85
   
-  # ÁØ¹ıÄ¢ÀÇ 95% ¹éºĞÀ§¼ö¸¦ ÀÓ°è°ªÀ¸·Î ¼³Á¤
+  # ì¤€ë²•ì¹™ì˜ 95% ë°±ë¶„ìœ„ìˆ˜ë¥¼ ì„ê³„ê°’ìœ¼ë¡œ ì„¤ì •
   threshold <- quantile(v$gamma, 0.95)
   
   cor_length <- min(v$dist[v$gamma > threshold])
@@ -1533,24 +1533,24 @@ count
   head(cor_length_km)
   #===============================================================================
   #As
-  # µ¥ÀÌÅÍ ÇÁ·¹ÀÓ¿¡¼­ À§Ä¡¿Í ¼öÁú ÁöÇ¥¸¦ ¼±ÅÃÇÕ´Ï´Ù
+  # ë°ì´í„° í”„ë ˆì„ì—ì„œ ìœ„ì¹˜ì™€ ìˆ˜ì§ˆ ì§€í‘œë¥¼ ì„ íƒí•©ë‹ˆë‹¤
   data <- ad.net[, c("longitude", "latitude", "As")]
   head(data)
   
-  # µ¥ÀÌÅÍ ÇÁ·¹ÀÓÀ» SpatialPointsDataFrameÀ¸·Î º¯È¯ÇÕ´Ï´Ù
+  # ë°ì´í„° í”„ë ˆì„ì„ SpatialPointsDataFrameìœ¼ë¡œ ë³€í™˜í•©ë‹ˆë‹¤
   coordinates(data) <- ~longitude+latitude
   
-  # ÁØ¹ıÄ¢À» °è»êÇÕ´Ï´Ù
+  # ì¤€ë²•ì¹™ì„ ê³„ì‚°í•©ë‹ˆë‹¤
   v <- variogram(As~1, data = data)
   
-  # ÁØ¹ıÄ¢À» ±×·¡ÇÁ·Î ±×¸³´Ï´Ù
+  # ì¤€ë²•ì¹™ì„ ê·¸ë˜í”„ë¡œ ê·¸ë¦½ë‹ˆë‹¤
   plot(v)
   
-  # ÁØ¹ıÄ¢¿¡¼­ »ó°ü ±æÀÌ¸¦ ÃßÁ¤ÇÕ´Ï´Ù
-  # # »ó°ü ±æÀÌ´Â ÁØ¹ıÄ¢ÀÌ Æ¯Á¤ ÀÓ°è°ª¿¡ µµ´ŞÇÏ´Â °Å¸®·Î Á¤ÀÇµË´Ï´Ù
+  # ì¤€ë²•ì¹™ì—ì„œ ìƒê´€ ê¸¸ì´ë¥¼ ì¶”ì •í•©ë‹ˆë‹¤
+  # # ìƒê´€ ê¸¸ì´ëŠ” ì¤€ë²•ì¹™ì´ íŠ¹ì • ì„ê³„ê°’ì— ë„ë‹¬í•˜ëŠ” ê±°ë¦¬ë¡œ ì •ì˜ë©ë‹ˆë‹¤
   # threshold <- 0.05
   
-  # ÁØ¹ıÄ¢ÀÇ 95% ¹éºĞÀ§¼ö¸¦ ÀÓ°è°ªÀ¸·Î ¼³Á¤
+  # ì¤€ë²•ì¹™ì˜ 95% ë°±ë¶„ìœ„ìˆ˜ë¥¼ ì„ê³„ê°’ìœ¼ë¡œ ì„¤ì •
   threshold <- quantile(v$gamma, 0.95)
   
   cor_length <- min(v$dist[v$gamma > threshold])
@@ -1559,25 +1559,25 @@ count
   head(cor_length_km)
   #===============================================================================
   #Mn
-  # µ¥ÀÌÅÍ ÇÁ·¹ÀÓ¿¡¼­ À§Ä¡¿Í ¼öÁú ÁöÇ¥¸¦ ¼±ÅÃÇÕ´Ï´Ù
+  # ë°ì´í„° í”„ë ˆì„ì—ì„œ ìœ„ì¹˜ì™€ ìˆ˜ì§ˆ ì§€í‘œë¥¼ ì„ íƒí•©ë‹ˆë‹¤
   data <- ad.net[, c("longitude", "latitude", "Mn")]
   head(data)
   
-  # µ¥ÀÌÅÍ ÇÁ·¹ÀÓÀ» SpatialPointsDataFrameÀ¸·Î º¯È¯ÇÕ´Ï´Ù
+  # ë°ì´í„° í”„ë ˆì„ì„ SpatialPointsDataFrameìœ¼ë¡œ ë³€í™˜í•©ë‹ˆë‹¤
   coordinates(data) <- ~longitude+latitude
   
-  # ÁØ¹ıÄ¢À» °è»êÇÕ´Ï´Ù
+  # ì¤€ë²•ì¹™ì„ ê³„ì‚°í•©ë‹ˆë‹¤
   v <- variogram(Mn~1, data = data)
   
-  # ÁØ¹ıÄ¢À» ±×·¡ÇÁ·Î ±×¸³´Ï´Ù
+  # ì¤€ë²•ì¹™ì„ ê·¸ë˜í”„ë¡œ ê·¸ë¦½ë‹ˆë‹¤
   plot(v)
   
-  # ÁØ¹ıÄ¢¿¡¼­ »ó°ü ±æÀÌ¸¦ ÃßÁ¤ÇÕ´Ï´Ù
-  # # »ó°ü ±æÀÌ´Â ÁØ¹ıÄ¢ÀÌ Æ¯Á¤ ÀÓ°è°ª¿¡ µµ´ŞÇÏ´Â °Å¸®·Î Á¤ÀÇµË´Ï´Ù
+  # ì¤€ë²•ì¹™ì—ì„œ ìƒê´€ ê¸¸ì´ë¥¼ ì¶”ì •í•©ë‹ˆë‹¤
+  # # ìƒê´€ ê¸¸ì´ëŠ” ì¤€ë²•ì¹™ì´ íŠ¹ì • ì„ê³„ê°’ì— ë„ë‹¬í•˜ëŠ” ê±°ë¦¬ë¡œ ì •ì˜ë©ë‹ˆë‹¤
   # threshold <- 0.05
   # 
   
-  # ÁØ¹ıÄ¢ÀÇ 95% ¹éºĞÀ§¼ö¸¦ ÀÓ°è°ªÀ¸·Î ¼³Á¤
+  # ì¤€ë²•ì¹™ì˜ 95% ë°±ë¶„ìœ„ìˆ˜ë¥¼ ì„ê³„ê°’ìœ¼ë¡œ ì„¤ì •
   threshold <- quantile(v$gamma, 0.95)
   
   cor_length <- min(v$dist[v$gamma > threshold])
@@ -1586,24 +1586,24 @@ count
   head(cor_length_km)
   #===============================================================================
   #Fe
-  # µ¥ÀÌÅÍ ÇÁ·¹ÀÓ¿¡¼­ À§Ä¡¿Í ¼öÁú ÁöÇ¥¸¦ ¼±ÅÃÇÕ´Ï´Ù
+  # ë°ì´í„° í”„ë ˆì„ì—ì„œ ìœ„ì¹˜ì™€ ìˆ˜ì§ˆ ì§€í‘œë¥¼ ì„ íƒí•©ë‹ˆë‹¤
   data <- ad.net[, c("longitude", "latitude", "Fe")]
   head(data)
   
-  # µ¥ÀÌÅÍ ÇÁ·¹ÀÓÀ» SpatialPointsDataFrameÀ¸·Î º¯È¯ÇÕ´Ï´Ù
+  # ë°ì´í„° í”„ë ˆì„ì„ SpatialPointsDataFrameìœ¼ë¡œ ë³€í™˜í•©ë‹ˆë‹¤
   coordinates(data) <- ~longitude+latitude
   
-  # ÁØ¹ıÄ¢À» °è»êÇÕ´Ï´Ù
+  # ì¤€ë²•ì¹™ì„ ê³„ì‚°í•©ë‹ˆë‹¤
   v <- variogram(Fe~1, data = data)
   
-  # ÁØ¹ıÄ¢À» ±×·¡ÇÁ·Î ±×¸³´Ï´Ù
+  # ì¤€ë²•ì¹™ì„ ê·¸ë˜í”„ë¡œ ê·¸ë¦½ë‹ˆë‹¤
   plot(v)
   
-  # ÁØ¹ıÄ¢¿¡¼­ »ó°ü ±æÀÌ¸¦ ÃßÁ¤ÇÕ´Ï´Ù
-  # # »ó°ü ±æÀÌ´Â ÁØ¹ıÄ¢ÀÌ Æ¯Á¤ ÀÓ°è°ª¿¡ µµ´ŞÇÏ´Â °Å¸®·Î Á¤ÀÇµË´Ï´Ù
+  # ì¤€ë²•ì¹™ì—ì„œ ìƒê´€ ê¸¸ì´ë¥¼ ì¶”ì •í•©ë‹ˆë‹¤
+  # # ìƒê´€ ê¸¸ì´ëŠ” ì¤€ë²•ì¹™ì´ íŠ¹ì • ì„ê³„ê°’ì— ë„ë‹¬í•˜ëŠ” ê±°ë¦¬ë¡œ ì •ì˜ë©ë‹ˆë‹¤
   # threshold <- 0.05
   
-  # ÁØ¹ıÄ¢ÀÇ 95% ¹éºĞÀ§¼ö¸¦ ÀÓ°è°ªÀ¸·Î ¼³Á¤
+  # ì¤€ë²•ì¹™ì˜ 95% ë°±ë¶„ìœ„ìˆ˜ë¥¼ ì„ê³„ê°’ìœ¼ë¡œ ì„¤ì •
   threshold <- quantile(v$gamma, 0.95)
   
   cor_length <- min(v$dist[v$gamma > threshold])
@@ -1612,24 +1612,24 @@ count
   head(cor_length_km)
   #===============================================================================
   #Turbidity
-  # µ¥ÀÌÅÍ ÇÁ·¹ÀÓ¿¡¼­ À§Ä¡¿Í ¼öÁú ÁöÇ¥¸¦ ¼±ÅÃÇÕ´Ï´Ù
+  # ë°ì´í„° í”„ë ˆì„ì—ì„œ ìœ„ì¹˜ì™€ ìˆ˜ì§ˆ ì§€í‘œë¥¼ ì„ íƒí•©ë‹ˆë‹¤
   data <- ad.net[, c("longitude", "latitude", "Turbidity")]
   head(data)
   
-  # µ¥ÀÌÅÍ ÇÁ·¹ÀÓÀ» SpatialPointsDataFrameÀ¸·Î º¯È¯ÇÕ´Ï´Ù
+  # ë°ì´í„° í”„ë ˆì„ì„ SpatialPointsDataFrameìœ¼ë¡œ ë³€í™˜í•©ë‹ˆë‹¤
   coordinates(data) <- ~longitude+latitude
   
-  # ÁØ¹ıÄ¢À» °è»êÇÕ´Ï´Ù
+  # ì¤€ë²•ì¹™ì„ ê³„ì‚°í•©ë‹ˆë‹¤
   v <- variogram(Turbidity~1, data = data)
   
-  # ÁØ¹ıÄ¢À» ±×·¡ÇÁ·Î ±×¸³´Ï´Ù
+  # ì¤€ë²•ì¹™ì„ ê·¸ë˜í”„ë¡œ ê·¸ë¦½ë‹ˆë‹¤
   plot(v)
   
-  # ÁØ¹ıÄ¢¿¡¼­ »ó°ü ±æÀÌ¸¦ ÃßÁ¤ÇÕ´Ï´Ù
-  # # »ó°ü ±æÀÌ´Â ÁØ¹ıÄ¢ÀÌ Æ¯Á¤ ÀÓ°è°ª¿¡ µµ´ŞÇÏ´Â °Å¸®·Î Á¤ÀÇµË´Ï´Ù
+  # ì¤€ë²•ì¹™ì—ì„œ ìƒê´€ ê¸¸ì´ë¥¼ ì¶”ì •í•©ë‹ˆë‹¤
+  # # ìƒê´€ ê¸¸ì´ëŠ” ì¤€ë²•ì¹™ì´ íŠ¹ì • ì„ê³„ê°’ì— ë„ë‹¬í•˜ëŠ” ê±°ë¦¬ë¡œ ì •ì˜ë©ë‹ˆë‹¤
   # threshold <- 0.05
   
-  # ÁØ¹ıÄ¢ÀÇ 95% ¹éºĞÀ§¼ö¸¦ ÀÓ°è°ªÀ¸·Î ¼³Á¤
+  # ì¤€ë²•ì¹™ì˜ 95% ë°±ë¶„ìœ„ìˆ˜ë¥¼ ì„ê³„ê°’ìœ¼ë¡œ ì„¤ì •
   threshold <- quantile(v$gamma, 0.95)
   cor_length <- min(v$dist[v$gamma > threshold])
   head(cor_length)
@@ -1637,40 +1637,40 @@ count
   head(cor_length_km)
   #===============================================================================
   #pH
-  # µ¥ÀÌÅÍ ÇÁ·¹ÀÓ¿¡¼­ À§Ä¡¿Í ¼öÁú ÁöÇ¥¸¦ ¼±ÅÃÇÕ´Ï´Ù
+  # ë°ì´í„° í”„ë ˆì„ì—ì„œ ìœ„ì¹˜ì™€ ìˆ˜ì§ˆ ì§€í‘œë¥¼ ì„ íƒí•©ë‹ˆë‹¤
   data <- ad.net[, c("longitude", "latitude", "pH")]
   head(data)
   
-  # µ¥ÀÌÅÍ ÇÁ·¹ÀÓÀ» SpatialPointsDataFrameÀ¸·Î º¯È¯ÇÕ´Ï´Ù
+  # ë°ì´í„° í”„ë ˆì„ì„ SpatialPointsDataFrameìœ¼ë¡œ ë³€í™˜í•©ë‹ˆë‹¤
   coordinates(data) <- ~longitude+latitude
   
-  # ÁØ¹ıÄ¢À» °è»êÇÕ´Ï´Ù
+  # ì¤€ë²•ì¹™ì„ ê³„ì‚°í•©ë‹ˆë‹¤
   v <- variogram(pH~1, data = data)
   
-  # ÁØ¹ıÄ¢À» ±×·¡ÇÁ·Î ±×¸³´Ï´Ù
+  # ì¤€ë²•ì¹™ì„ ê·¸ë˜í”„ë¡œ ê·¸ë¦½ë‹ˆë‹¤
   plot(v)
   
-  # ÁØ¹ıÄ¢¿¡¼­ »ó°ü ±æÀÌ¸¦ ÃßÁ¤ÇÕ´Ï´Ù
-  # # »ó°ü ±æÀÌ´Â ÁØ¹ıÄ¢ÀÌ Æ¯Á¤ ÀÓ°è°ª¿¡ µµ´ŞÇÏ´Â °Å¸®·Î Á¤ÀÇµË´Ï´Ù
+  # ì¤€ë²•ì¹™ì—ì„œ ìƒê´€ ê¸¸ì´ë¥¼ ì¶”ì •í•©ë‹ˆë‹¤
+  # # ìƒê´€ ê¸¸ì´ëŠ” ì¤€ë²•ì¹™ì´ íŠ¹ì • ì„ê³„ê°’ì— ë„ë‹¬í•˜ëŠ” ê±°ë¦¬ë¡œ ì •ì˜ë©ë‹ˆë‹¤
   # threshold <- 0.05
   
-  # ÁØ¹ıÄ¢ÀÇ 95% ¹éºĞÀ§¼ö¸¦ ÀÓ°è°ªÀ¸·Î ¼³Á¤
+  # ì¤€ë²•ì¹™ì˜ 95% ë°±ë¶„ìœ„ìˆ˜ë¥¼ ì„ê³„ê°’ìœ¼ë¡œ ì„¤ì •
   threshold <- quantile(v$gamma, 0.95)
   cor_length <- min(v$dist[v$gamma > threshold])
   head(cor_length)
   cor_length_km <- cor_length * 111.32
   head(cor_length_km)
   #===============================================================================
-  #Correlation length ½Ã°¢È­
+  #Correlation length ì‹œê°í™”
   
-  # µ¥ÀÌÅÍ ºÒ·¯¿À±â
-  cor <- read.csv("Correlation length(Ãæ³²).csv")
+  # ë°ì´í„° ë¶ˆëŸ¬ì˜¤ê¸°
+  cor <- read.csv("Correlation length(ì¶©ë‚¨).csv")
   head(cor)
-  # º¯¼ö ¼ø¼­ ¼³Á¤
+  # ë³€ìˆ˜ ìˆœì„œ ì„¤ì •
   # cor$Water.quality.parameters <- factor(cor$Water.quality.parameters, levels = c("pH", "NO3-N", "F", "Al", "As", "Mn", "Fe", "Turbidity"))
   cor$Water.quality.parameters <- factor(cor$Water.quality.parameters, levels = c("NO3-N", "F", "Mn", "pH", "Al", "As", "Fe", "Turbidity"))
   
-  # Moran Index¿Í Correlation Length¸¦ ÇÏ³ªÀÇ ±×·¡ÇÁ·Î Ç¥Çö
+  # Moran Indexì™€ Correlation Lengthë¥¼ í•˜ë‚˜ì˜ ê·¸ë˜í”„ë¡œ í‘œí˜„
   ggplot(cor, aes(x=Water.quality.parameters)) +
     geom_bar(aes(y=correlation.length.total.km), stat="identity", fill="steelblue4", width = 0.5, color="black") +
     # annotation_custom(stripe, ymin=-Inf, ymax=Inf) +
@@ -1696,18 +1696,18 @@ count
     scale_x_discrete(labels=c(expression(paste("NO"[3],"-N")),"F","Mn", "pH", "Al",  "As", "Fe", "Turbidity")) 
 }
 #===============================================================================
-#ÃæÃ»³²µµ º¸°£¹ı (¼±Á¤µÈ ¼öÁúÀÎÀÚµé)
+#ì¶©ì²­ë‚¨ë„ ë³´ê°„ë²• (ì„ ì •ëœ ìˆ˜ì§ˆì¸ìë“¤)
 {
   map_cn = readOGR("LSMD_ADM_SECT_UMD_44.shp")
   to.crs <- "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs"  
   df_map_cn <- spTransform(map_cn, to.crs)
   head(df_map_cn)
   
-  sg = read.csv("¾È½ÉÁöÇÏ¼ö(17-22, GQI, HRA)GPS,WAWQI¼öÁ¤.csv", header=T, as.is=T, row.names = 1, na="-", fileEncoding = "CP949", encoding = "UTF-8")
+  sg = read.csv("ì•ˆì‹¬ì§€í•˜ìˆ˜(17-22, GQI, HRA)GPS,WAWQIìˆ˜ì •.csv", header=T, as.is=T, row.names = 1, na="-", fileEncoding = "CP949", encoding = "UTF-8")
   head(sg)
   # sg$Age=="Adult"// sg$Age=="Child"
-  sg_cn=subset(sg, sg$½Ãµµ=="ÃæÃ»³²µµ"& sg$Age=="Adult")
-  sg_cn=subset(sg, sg$½Ãµµ=="ÃæÃ»³²µµ"& sg$Age=="Child")
+  sg_cn=subset(sg, sg$ì‹œë„=="ì¶©ì²­ë‚¨ë„"& sg$Age=="Adult")
+  sg_cn=subset(sg, sg$ì‹œë„=="ì¶©ì²­ë‚¨ë„"& sg$Age=="Child")
   max(sg_cn$HQ.total)
   sg3 = subset(sg_cn, select=c("longitude", "latitude","NO3.N","F","Mn", "pH","Al","As","Fe","Turbidity"))
   head(sg3)
@@ -1736,7 +1736,7 @@ count
   r.NO3.N      <- raster(P.idw.NO3.N)
   r.m.NO3.N    <- mask(r.NO3.N, df_map_cn)
   
-  # NO3.N IDW (ÃæÃ»³²µµ)
+  # NO3.N IDW (ì¶©ì²­ë‚¨ë„)
   tm_shape(map_cn) +
     tm_borders(col="black",
                lwd=2)+
@@ -1765,7 +1765,7 @@ count
   r.F     <- raster(P.idw.F)
   r.m.F    <- mask(r.F, df_map_cn)
   
-  # F IDW (ÃæÃ»³²µµ)
+  # F IDW (ì¶©ì²­ë‚¨ë„)
   tm_shape(map_cn) +
     tm_borders(col="black",
                lwd=3)+
@@ -1793,7 +1793,7 @@ count
   r.Al      <- raster(P.idw.Al)
   r.m.Al    <- mask(r.Al, df_map_cn)
   
-  # Al IDW (ÃæÃ»³²µµ)
+  # Al IDW (ì¶©ì²­ë‚¨ë„)
   tm_shape(map_cn) +
     tm_borders(col="black",
                lwd=2)+
@@ -1821,7 +1821,7 @@ count
   r.As      <- raster(P.idw.As)
   r.m.As    <- mask(r.As, df_map_cn)
   
-  # As IDW (ÃæÃ»³²µµ)
+  # As IDW (ì¶©ì²­ë‚¨ë„)
   tm_shape(map_cn) +
     tm_borders(col="black",
                lwd=2)+
@@ -1849,7 +1849,7 @@ count
   r.Fe      <- raster(P.idw.Fe)
   r.m.Fe    <- mask(r.Fe, df_map_cn)
   
-  # Fe IDW (ÃæÃ»³²µµ)
+  # Fe IDW (ì¶©ì²­ë‚¨ë„)
   tm_shape(map_cn) +
     tm_borders(col="black",
                lwd=2)+
@@ -1878,7 +1878,7 @@ count
   r.Turbidity      <- raster(P.idw.Turbidity)
   r.m.Turbidity    <- mask(r.Turbidity, df_map_cn)
   
-  # Turbidity IDW (ÃæÃ»³²µµ)
+  # Turbidity IDW (ì¶©ì²­ë‚¨ë„)
   tm_shape(map_cn) +
     tm_borders(col="black",
                lwd=2)+
@@ -1906,7 +1906,7 @@ count
   r.Mn      <- raster(P.idw.Mn)
   r.m.Mn    <- mask(r.Mn, df_map_cn)
   
-  # Mn IDW (ÃæÃ»³²µµ)
+  # Mn IDW (ì¶©ì²­ë‚¨ë„)
   tm_shape(map_cn) +
     tm_borders(col="black",
                lwd=2)+
@@ -1935,7 +1935,7 @@ count
   r.pH      <- raster(P.idw.pH)
   r.m.pH    <- mask(r.pH, df_map_cn)
   
-  # pH IDW (ÃæÃ»³²µµ)
+  # pH IDW (ì¶©ì²­ë‚¨ë„)
   tm_shape(map_cn) +
     tm_borders(col="black",
                lwd=2)+
@@ -1964,7 +1964,7 @@ count
 #===============================================================================
 #Neighbor and local contribution
 {
-  dat <- read.csv("¾È½ÉÁöÇÏ¼ö(17-22, GQI, HRA)GPS,WAWQI¼öÁ¤.csv", na="-", fileEncoding = "CP949", encoding = "UTF-8")
+  dat <- read.csv("ì•ˆì‹¬ì§€í•˜ìˆ˜(17-22, GQI, HRA)GPS,WAWQIìˆ˜ì •.csv", na="-", fileEncoding = "CP949", encoding = "UTF-8")
   {
     dat$No. = as.numeric(dat$No.)
     dat$Year = as.numeric(dat$Year)
@@ -1973,36 +1973,36 @@ count
     dat$GQI = as.numeric(dat$GQI)
     dat$General_Bacteria = as.numeric(dat$General_Bacteria)
   }
-  dat = subset(dat, dat$½Ãµµ == "ÃæÃ»³²µµ")
+  dat = subset(dat, dat$ì‹œë„ == "ì¶©ì²­ë‚¨ë„")
   ad = subset(dat, dat$Age == "Adult")
   
-  #ÀÏ´Ü 0°ªµéÀ» ´Ù ¼öÁ¤ => °ø°£ºĞ¼®À» À§ÇØ¼± 0°ª X
+  #ì¼ë‹¨ 0ê°’ë“¤ì„ ë‹¤ ìˆ˜ì • => ê³µê°„ë¶„ì„ì„ ìœ„í•´ì„  0ê°’ X
   ad[c(17:56)][ad[c(17:56)]==0]<-0.000001
   str(ad)
-  ad.net = ad[complete.cases(ad$longitude), ] #NA´Â Á¦°Å! (3°³ Çà Á¦°Å)
+  ad.net = ad[complete.cases(ad$longitude), ] #NAëŠ” ì œê±°! (3ê°œ í–‰ ì œê±°)
   
-  #µ¥ÀÌÅÍ Ç¥ÁØÈ­ (xÃà º¯¼ö= (¼öÁúÀÎÀÚ ³óµµ-Æò±Õ)/Ç¥ÁØÆíÂ÷) Áï z-score »ç¿ë -> Æò±ÕÀ» 0À¸·Î Ç¥ÁØÆíÂ÷¸¦ 1·Î ¸¸µç´Ù
+  #ë°ì´í„° í‘œì¤€í™” (xì¶• ë³€ìˆ˜= (ìˆ˜ì§ˆì¸ì ë†ë„-í‰ê· )/í‘œì¤€í¸ì°¨) ì¦‰ z-score ì‚¬ìš© -> í‰ê· ì„ 0ìœ¼ë¡œ í‘œì¤€í¸ì°¨ë¥¼ 1ë¡œ ë§Œë“ ë‹¤
   #Adult
   ad.net.s = scale(ad.net[c(17,19,20,22,23:56)])
   ad.net.s = as.data.frame(ad.net.s)
   ad.net = cbind(ad.net[c(1:11)], ad.net.s)
-  summary(ad.net$General_Bacteria) #Ç¥ÁØÈ­°¡ Àß µÆ³ª È®ÀÎ
-  summary(ad.net$HQ.total) #Ç¥ÁØÈ­°¡ Àß µÆ³ª È®ÀÎ
+  summary(ad.net$General_Bacteria) #í‘œì¤€í™”ê°€ ì˜ ëë‚˜ í™•ì¸
+  summary(ad.net$HQ.total) #í‘œì¤€í™”ê°€ ì˜ ëë‚˜ í™•ì¸
   
   #Good
   head(ad.net)
   
-  #ÀÌ¿ô °ü°è ¸®½ºÆ® »ı¼ºÇÏ±â
+  #ì´ì›ƒ ê´€ê³„ ë¦¬ìŠ¤íŠ¸ ìƒì„±í•˜ê¸°
   coords.ad <- cbind(ad.net$longitude, ad.net$latitude)
-  nb.ad <- knn2nb(knearneigh(coords.ad, k = 20)) # k-ÃÖ±ÙÁ¢ ÀÌ¿ô ¹æ½ÄÀ¸·Î ÀÌ¿ô °ü°è ¸®½ºÆ® »ı¼º => °í¹Ğµµ ºÒ±Õµî ºĞÆ÷ µ¥ÀÌÅÍ
+  nb.ad <- knn2nb(knearneigh(coords.ad, k = 20)) # k-ìµœê·¼ì ‘ ì´ì›ƒ ë°©ì‹ìœ¼ë¡œ ì´ì›ƒ ê´€ê³„ ë¦¬ìŠ¤íŠ¸ ìƒì„± => ê³ ë°€ë„ ë¶ˆê· ë“± ë¶„í¬ ë°ì´í„°
   
-  #°ø°£ °¡ÁßÄ¡ Çà·Ä »ı¼ºÇÏ±â
+  #ê³µê°„ ê°€ì¤‘ì¹˜ í–‰ë ¬ ìƒì„±í•˜ê¸°
   w.ad <- nb2listw (nb.ad, style = "minmax")
   
-  # ¼öÁú ÀÎÀÚ ¸®½ºÆ®¸¦ »ı¼ºÇÕ´Ï´Ù.
-  parameters <- c("NO3.N", "F","Mn","pH","Al","As","Fe","Turbidity")  # ¿©±â¿¡ ºĞ¼®ÇÏ·Á´Â ¼öÁú ÀÎÀÚÀÇ ÀÌ¸§À» Ãß°¡ÇÏ¼¼¿ä.
+  # ìˆ˜ì§ˆ ì¸ì ë¦¬ìŠ¤íŠ¸ë¥¼ ìƒì„±í•©ë‹ˆë‹¤.
+  parameters <- c("NO3.N", "F","Mn","pH","Al","As","Fe","Turbidity")  # ì—¬ê¸°ì— ë¶„ì„í•˜ë ¤ëŠ” ìˆ˜ì§ˆ ì¸ìì˜ ì´ë¦„ì„ ì¶”ê°€í•˜ì„¸ìš”.
   
-  # °¢ ¼öÁú ÀÎÀÚ¿¡ ´ëÇØ ÀÌ¿ô ±â¿©µµ¿Í Áö¿ª ±â¿©µµ¸¦ °è»êÇÕ´Ï´Ù.
+  # ê° ìˆ˜ì§ˆ ì¸ìì— ëŒ€í•´ ì´ì›ƒ ê¸°ì—¬ë„ì™€ ì§€ì—­ ê¸°ì—¬ë„ë¥¼ ê³„ì‚°í•©ë‹ˆë‹¤.
   contributions <- data.frame()
   for (param in parameters) {
     ad.net$lag_param <- lag.listw(w.ad, ad.net[[param]])
@@ -2013,10 +2013,10 @@ count
                                                      Local = local_contribution))
   }
   
-  # µ¥ÀÌÅÍ¸¦ Àç±¸Á¶È­ÇÏ¿© ggplotÀÌ »ç¿ëÇÒ ¼ö ÀÖ´Â Çü½ÄÀ¸·Î ¸¸µì´Ï´Ù.
+  # ë°ì´í„°ë¥¼ ì¬êµ¬ì¡°í™”í•˜ì—¬ ggplotì´ ì‚¬ìš©í•  ìˆ˜ ìˆëŠ” í˜•ì‹ìœ¼ë¡œ ë§Œë“­ë‹ˆë‹¤.
   contributions_melt <- melt(contributions, id.vars = "Parameter")
   
-  # ÀÌ¿ô ±â¿©µµ¿Í Áö¿ª ±â¿©µµ¸¦ ¹Ù ÇÃ·ÔÀ¸·Î Ç¥½ÃÇÕ´Ï´Ù.
+  # ì´ì›ƒ ê¸°ì—¬ë„ì™€ ì§€ì—­ ê¸°ì—¬ë„ë¥¼ ë°” í”Œë¡¯ìœ¼ë¡œ í‘œì‹œí•©ë‹ˆë‹¤.
   
   contributions_melt$Parameter <- factor(contributions_melt$Parameter, levels = c("NO3.N", "F", "Mn", "pH", "Al", "As", "Fe", "Turbidity"))
   head(contributions_melt)
@@ -2029,12 +2029,12 @@ count
     labs(x = "Parameter", y = "Contribution (%)", fill = "") +
     theme_minimal() +
     labs(x = "", y = "Contribution (%)") +
-    theme(panel.background = element_rect(fill = "white", color = "black"),  # ¹è°æ ½Ç¼± Á¦°Å
-          panel.grid.major = element_blank(),  # ÁÖ¿ä ±×¸®µå Á¦°Å
-          panel.grid.minor = element_blank(),  # º¸Á¶ ±×¸®µå Á¦°Å
-          legend.position = "top",  # ¹ü·Ê¸¦ ±×¸² À§·Î ÀÌµ¿
-          legend.direction = "horizontal",  # ¹ü·Ê¸¦ °¡·Î·Î ¼³Á¤
-          legend.spacing.x = unit(0.5, "cm"),  # ¹ü·Ê Ç×¸ñ »çÀÌÀÇ °£°İ Á¶Á¤
+    theme(panel.background = element_rect(fill = "white", color = "black"),  # ë°°ê²½ ì‹¤ì„  ì œê±°
+          panel.grid.major = element_blank(),  # ì£¼ìš” ê·¸ë¦¬ë“œ ì œê±°
+          panel.grid.minor = element_blank(),  # ë³´ì¡° ê·¸ë¦¬ë“œ ì œê±°
+          legend.position = "top",  # ë²”ë¡€ë¥¼ ê·¸ë¦¼ ìœ„ë¡œ ì´ë™
+          legend.direction = "horizontal",  # ë²”ë¡€ë¥¼ ê°€ë¡œë¡œ ì„¤ì •
+          legend.spacing.x = unit(0.5, "cm"),  # ë²”ë¡€ í•­ëª© ì‚¬ì´ì˜ ê°„ê²© ì¡°ì •
           axis.text.x = element_text(size = 18, angle = 50, hjust = 1), 
           axis.text.y = element_text(size = 18),
           axis.title.y = element_text(size = 18,color = "black"),
@@ -2043,12 +2043,12 @@ count
     scale_x_discrete(labels = c(expression(paste("NO"[3],"-N")), "F", "Mn", "pH", "Al",  "As", "Fe", "Turbidity"))
 }
 {
-  dat <- read.csv("cor,I,contribution(Ãæ³²).csv")
+  dat <- read.csv("cor,I,contribution(ì¶©ë‚¨).csv")
   head(dat)
   
   dat$Water.quality.parameters <- factor(dat$Water.quality.parameters, levels = c("pH", "F", "NO3-N", "Al", "As", "Mn", "Fe", "Turbidity"))
   
-  # Moran Index¿Í Correlation Length¸¦ ÇÏ³ªÀÇ ±×·¡ÇÁ·Î Ç¥Çö
+  # Moran Indexì™€ Correlation Lengthë¥¼ í•˜ë‚˜ì˜ ê·¸ë˜í”„ë¡œ í‘œí˜„
   ggplot(dat, aes(x=Water.quality.parameters)) +
     geom_bar(aes(y=Neighbor.contribution), stat="identity", fill="firebrick2", width = 0.5, color="black") +
     # annotation_custom(stripe, ymin=-Inf, ymax=Inf) +
@@ -2075,16 +2075,16 @@ count
 }
 #===============================================================================
 #Landuse
-setwd("D:/jaeuk/´ëÇĞ¿ø/¿¬±¸/2023 ¾È½ÉÁöÇÏ¼ö/R_¾È½ÉÁöÇÏ¼ö2023")
-#ÁøÂ¥ ¹«¼öÇÑ,, ³ë·ÂÀÌ ÀÖ¾ú´Ù, landuse¸¦ °è»êÇÏ°íÀÚ ÇÏ´Â... QGIS ÆÄÀÏ,,, Âü°í,,,,
+setwd("D:/jaeuk/ëŒ€í•™ì›/ì—°êµ¬/2023 ì•ˆì‹¬ì§€í•˜ìˆ˜/R_ì•ˆì‹¬ì§€í•˜ìˆ˜2023")
+#ì§„ì§œ ë¬´ìˆ˜í•œ,, ë…¸ë ¥ì´ ìˆì—ˆë‹¤, landuseë¥¼ ê³„ì‚°í•˜ê³ ì í•˜ëŠ”... QGIS íŒŒì¼,,, ì°¸ê³ ,,,,
 {
-setwd("D:/jaeuk/´ëÇĞ¿ø/¿¬±¸/2023 ¾È½ÉÁöÇÏ¼ö/R_¾È½ÉÁöÇÏ¼ö2023")
-dat <- read.csv("Ãæ³² ÀüÃ¼ ±³Â÷ ¿µ¿ª.csv", na="-", fileEncoding = "CP949", encoding = "UTF-8")
+setwd("D:/jaeuk/ëŒ€í•™ì›/ì—°êµ¬/2023 ì•ˆì‹¬ì§€í•˜ìˆ˜/R_ì•ˆì‹¬ì§€í•˜ìˆ˜2023")
+dat <- read.csv("ì¶©ë‚¨ ì „ì²´ êµì°¨ ì˜ì—­.csv", na="-", fileEncoding = "CP949", encoding = "UTF-8")
 head(dat)
 data = dat[,c(1:7,21,22)]
 head(data)
 
-# A17ÀÇ °¢ Å¬·¡½º¸¦ ÁöÁ¤µÈ ±×·ìÀ¸·Î Ä¡È¯ÇÕ´Ï´Ù.
+# A17ì˜ ê° í´ë˜ìŠ¤ë¥¼ ì§€ì •ëœ ê·¸ë£¹ìœ¼ë¡œ ì¹˜í™˜í•©ë‹ˆë‹¤.
 data$A17 <- case_when(
   data$A17 %in% c(110,120,130,140,150,160) ~ "Residual",
   data$A17 %in% c(210,220,230,240,310,320,330,410,420,430,440) ~ "Industry",
@@ -2092,33 +2092,33 @@ data$A17 <- case_when(
   data$A17 %in% c(550,640,740,750) ~ "Livestock",
   data$A17 %in% c(710,720,730) ~ "Forest",
   data$A17 == 920 ~ "Water",
-  TRUE ~ "Others"  # ÀÌ¿ÜÀÇ °ªÀº ¸ğµÎ 'Others'·Î Ä¡È¯
+  TRUE ~ "Others"  # ì´ì™¸ì˜ ê°’ì€ ëª¨ë‘ 'Others'ë¡œ ì¹˜í™˜
 )
 
-# 'key'¸¦ ±âÁØÀ¸·Î 'A17'ÀÇ °¢ Å¬·¡½º¿¡ ´ëÇÑ 'area'ÀÇ ÇÕ°è¸¦ °è»êÇÕ´Ï´Ù.
+# 'key'ë¥¼ ê¸°ì¤€ìœ¼ë¡œ 'A17'ì˜ ê° í´ë˜ìŠ¤ì— ëŒ€í•œ 'area'ì˜ í•©ê³„ë¥¼ ê³„ì‚°í•©ë‹ˆë‹¤.
 data_sum <- data %>%
   group_by(key, A17) %>%
   summarise(area = sum(area, na.rm = TRUE))
 
-# 'A17'ÀÇ °¢ Å¬·¡½º¸¦ »õ·Î¿î ¿­·Î º¯È¯ÇÏ°í, ÇØ´ç 'area' °ªÀ» Ã¤¿ö³Ö½À´Ï´Ù.
+# 'A17'ì˜ ê° í´ë˜ìŠ¤ë¥¼ ìƒˆë¡œìš´ ì—´ë¡œ ë³€í™˜í•˜ê³ , í•´ë‹¹ 'area' ê°’ì„ ì±„ì›Œë„£ìŠµë‹ˆë‹¤.
 data_wide <- data_sum %>%
   spread(key = A17, value = area)
 
 head(data_wide)
 
-# ¸ğµç ¿­¿¡¼­ NA °ªÀ» 0À¸·Î ¹Ù²ß´Ï´Ù.
+# ëª¨ë“  ì—´ì—ì„œ NA ê°’ì„ 0ìœ¼ë¡œ ë°”ê¿‰ë‹ˆë‹¤.
 data_wide[is.na(data_wide)] <- 0
 
 head(data_wide)
 
-# 'key' ¿­À» Á¦¿ÜÇÑ ¸ğµç ¿­ÀÇ °ªÀ» 0.000001265·Î °öÇÕ´Ï´Ù.
+# 'key' ì—´ì„ ì œì™¸í•œ ëª¨ë“  ì—´ì˜ ê°’ì„ 0.000001265ë¡œ ê³±í•©ë‹ˆë‹¤.
 data_wide <- data_wide %>%
   mutate_at(vars(-key), ~ . * 0.000001265)
 
 head(data_wide)
 
-# dat <- read.csv("¾È½ÉÁöÇÏ¼ö(Ãæ³²).csv", na="-", fileEncoding = "CP949", encoding = "UTF-8")
-dat <- read.csv("¾È½ÉÁöÇÏ¼ö(17-22, GQI, HRA)GPS,WAWQI¼öÁ¤.csv", na="-", fileEncoding = "CP949", encoding = "UTF-8")
+# dat <- read.csv("ì•ˆì‹¬ì§€í•˜ìˆ˜(ì¶©ë‚¨).csv", na="-", fileEncoding = "CP949", encoding = "UTF-8")
+dat <- read.csv("ì•ˆì‹¬ì§€í•˜ìˆ˜(17-22, GQI, HRA)GPS,WAWQIìˆ˜ì •.csv", na="-", fileEncoding = "CP949", encoding = "UTF-8")
 {
   dat$No. = as.numeric(dat$No.)
   dat$Year = as.numeric(dat$Year)
@@ -2127,22 +2127,22 @@ dat <- read.csv("¾È½ÉÁöÇÏ¼ö(17-22, GQI, HRA)GPS,WAWQI¼öÁ¤.csv", na="-", fileEnco
   dat$GQI = as.numeric(dat$GQI)
   dat$General_Bacteria = as.numeric(dat$General_Bacteria)
 }
-dat = subset(dat, dat$½Ãµµ == "ÃæÃ»³²µµ")
+dat = subset(dat, dat$ì‹œë„ == "ì¶©ì²­ë‚¨ë„")
 ad = subset(dat, dat$Age == "Adult")
 head(ad)
 
 merged_data <- merge(ad, data_wide, by = "key")
 
-# write.csv(merged_data, "ÃæÃ»³²µµ ÀüÃ¼(landuse Æ÷ÇÔ).csv", na="-", fileEncoding = "CP949")
+# write.csv(merged_data, "ì¶©ì²­ë‚¨ë„ ì „ì²´(landuse í¬í•¨).csv", na="-", fileEncoding = "CP949")
 }
 #-------------------
-dat <- read.csv("ÃæÃ»³²µµ ÀüÃ¼(landuse Æ÷ÇÔ).csv", na="-", fileEncoding = "CP949", encoding = "UTF-8")
+dat <- read.csv("ì¶©ì²­ë‚¨ë„ ì „ì²´(landuse í¬í•¨).csv", na="-", fileEncoding = "CP949", encoding = "UTF-8")
 head(dat)
 #===============================================================================
-#¼öÁúÀÎÀÚ¿Í landuse »ó°üºĞ¼®
+#ìˆ˜ì§ˆì¸ìì™€ landuse ìƒê´€ë¶„ì„
 #Landuse correlation
 {
-  dat <- read.csv("ÃæÃ»³²µµ ÀüÃ¼(landuse Æ÷ÇÔ).csv", na="-", fileEncoding = "CP949", encoding = "UTF-8")
+  dat <- read.csv("ì¶©ì²­ë‚¨ë„ ì „ì²´(landuse í¬í•¨).csv", na="-", fileEncoding = "CP949", encoding = "UTF-8")
   {
     dat$No. = as.numeric(dat$No.)
     dat$Year = as.numeric(dat$Year)
@@ -2152,7 +2152,7 @@ head(dat)
     dat$General_Bacteria = as.numeric(dat$General_Bacteria)
   }
   
-  # ¼öÁú ÀÎÀÚ¿Í landuse °£ÀÇ »ó°ü ºĞ¼®À» ¼öÇàÇÕ´Ï´Ù.
+  # ìˆ˜ì§ˆ ì¸ìì™€ landuse ê°„ì˜ ìƒê´€ ë¶„ì„ì„ ìˆ˜í–‰í•©ë‹ˆë‹¤.
   water_quality <- c("NO3.N", "F", "Mn", "pH", "Al", "As", "Fe", "Turbidity")
   landuse <- c("Residential", "Industrial", "Livestock", "Cropland", "Forest", "Water")
   
@@ -2175,7 +2175,7 @@ head(dat)
   
   head(correlation_results)
   
-  # »ó°ü °è¼ö¸¦ ½Ã°¢È­ÇÕ´Ï´Ù.
+  # ìƒê´€ ê³„ìˆ˜ë¥¼ ì‹œê°í™”í•©ë‹ˆë‹¤.
   ggplot(correlation_results, aes(x = LandUse, y = WaterQuality, fill = Correlation)) +
     geom_tile(color = "black") +
     geom_text(aes(label = ifelse(PValue < 0.05, round(Correlation, 2), "")), 
@@ -2188,11 +2188,11 @@ head(dat)
                                      size = 12, hjust = 1),
           axis.text.y = element_text(size = 12)) +
     scale_y_discrete(labels = c("Turbidity", "pH", expression(paste("NO"[3],"-N")),"Mn", "Fe", "F",  "As", "Al"))+
-    theme(panel.background = element_rect(fill = "white", color = "white"),  # ¹è°æ ½Ç¼± Á¦°Å
-          panel.grid.major = element_blank(),  # ÁÖ¿ä ±×¸®µå Á¦°Å
-          panel.grid.minor = element_blank(),  # º¸Á¶ ±×¸®µå Á¦°Å
-          legend.position = "NA",  # ¹ü·Ê¸¦ ±×¸² À§·Î ÀÌµ¿
-          legend.direction = "horizontal",  # ¹ü·Ê¸¦ °¡·Î·Î ¼³Á¤
+    theme(panel.background = element_rect(fill = "white", color = "white"),  # ë°°ê²½ ì‹¤ì„  ì œê±°
+          panel.grid.major = element_blank(),  # ì£¼ìš” ê·¸ë¦¬ë“œ ì œê±°
+          panel.grid.minor = element_blank(),  # ë³´ì¡° ê·¸ë¦¬ë“œ ì œê±°
+          legend.position = "NA",  # ë²”ë¡€ë¥¼ ê·¸ë¦¼ ìœ„ë¡œ ì´ë™
+          legend.direction = "horizontal",  # ë²”ë¡€ë¥¼ ê°€ë¡œë¡œ ì„¤ì •
           axis.text.x = element_text(size = 16, angle = 50, hjust = 1),
           axis.text.y = element_text(size = 16),
           axis.title.x = element_text(size = 0,color = "black"),
@@ -2201,9 +2201,9 @@ head(dat)
           legend.title = element_text(size = 0))
 }
 #----------------------
-#Index¿Í landuse »ó°üºĞ¼®
+#Indexì™€ landuse ìƒê´€ë¶„ì„
 {
-  dat <- read.csv("ÃæÃ»³²µµ ÀüÃ¼(landuse Æ÷ÇÔ).csv", na="-", fileEncoding = "CP949", encoding = "UTF-8")
+  dat <- read.csv("ì¶©ì²­ë‚¨ë„ ì „ì²´(landuse í¬í•¨).csv", na="-", fileEncoding = "CP949", encoding = "UTF-8")
   {
     dat$No. = as.numeric(dat$No.)
     dat$Year = as.numeric(dat$Year)
@@ -2214,7 +2214,7 @@ head(dat)
   }
   
   head(dat)
-  # ¼öÁú ÀÎÀÚ¿Í landuse °£ÀÇ »ó°ü ºĞ¼®À» ¼öÇàÇÕ´Ï´Ù.
+  # ìˆ˜ì§ˆ ì¸ìì™€ landuse ê°„ì˜ ìƒê´€ ë¶„ì„ì„ ìˆ˜í–‰í•©ë‹ˆë‹¤.
   # index <- c("WAWQI.12", "HQ.total.adult", "HQ.total.child", "DRASTIC")
   index <- c("WAWQI.12", "HQ.total.adult", "HQ.total.child")
   landuse <- c("Residential", "Industrial", "Livestock", "Cropland", "Forest", "Water")
@@ -2240,7 +2240,7 @@ head(dat)
   
   head(correlation_results)
   
-  # »ó°ü °è¼ö¸¦ ½Ã°¢È­ÇÕ´Ï´Ù.
+  # ìƒê´€ ê³„ìˆ˜ë¥¼ ì‹œê°í™”í•©ë‹ˆë‹¤.
   ggplot(correlation_results, aes(x = LandUse, y = index, fill = Correlation)) +
     geom_tile(color = "black") +
     geom_text(aes(label = ifelse(PValue < 0.05, round(Correlation, 2), "")), 
@@ -2254,11 +2254,11 @@ head(dat)
           axis.text.y = element_text(size = 12)) +
     scale_x_discrete(labels = c("Residential", "Industrial", "Livestock", "Cropland", "Forest", "Water"))+
     scale_y_discrete(labels = c("HQ (child)","HQ (adult)", "WAWQI"))+
-    theme(panel.background = element_rect(fill = "white", color = "white"),  # ¹è°æ ½Ç¼± Á¦°Å
-          panel.grid.major = element_blank(),  # ÁÖ¿ä ±×¸®µå Á¦°Å
-          panel.grid.minor = element_blank(),  # º¸Á¶ ±×¸®µå Á¦°Å
-          legend.position = "NA",  # ¹ü·Ê¸¦ ±×¸² À§·Î ÀÌµ¿
-          legend.direction = "horizontal",  # ¹ü·Ê¸¦ °¡·Î·Î ¼³Á¤
+    theme(panel.background = element_rect(fill = "white", color = "white"),  # ë°°ê²½ ì‹¤ì„  ì œê±°
+          panel.grid.major = element_blank(),  # ì£¼ìš” ê·¸ë¦¬ë“œ ì œê±°
+          panel.grid.minor = element_blank(),  # ë³´ì¡° ê·¸ë¦¬ë“œ ì œê±°
+          legend.position = "NA",  # ë²”ë¡€ë¥¼ ê·¸ë¦¼ ìœ„ë¡œ ì´ë™
+          legend.direction = "horizontal",  # ë²”ë¡€ë¥¼ ê°€ë¡œë¡œ ì„¤ì •
           axis.text.x = element_text(size = 16, angle = 50, hjust = 1),
           axis.text.y = element_text(size = 16),
           axis.title.x = element_text(size = 0,color = "black"),
@@ -2269,9 +2269,9 @@ head(dat)
   
 }
 #===============================================================================
-#Áß¿äµµ ºĞ¼®
+#ì¤‘ìš”ë„ ë¶„ì„
 {
-  dat <- read.csv("ÃæÃ»³²µµ ÀüÃ¼(landuse Æ÷ÇÔ).csv", na="-", fileEncoding = "CP949", encoding = "UTF-8")
+  dat <- read.csv("ì¶©ì²­ë‚¨ë„ ì „ì²´(landuse í¬í•¨).csv", na="-", fileEncoding = "CP949", encoding = "UTF-8")
   {
     dat$No. = as.numeric(dat$No.)
     dat$Year = as.numeric(dat$Year)
@@ -2383,31 +2383,31 @@ head(dat)
   names(a)[8] <- c("Turbidity")
 }
 head(a)
-# write.csv(a, "ÃæÃ»³²µµ landuse importance.csv", na="-", fileEncoding = "CP949")
+# write.csv(a, "ì¶©ì²­ë‚¨ë„ landuse importance.csv", na="-", fileEncoding = "CP949")
 #-------------------------------------------------------------------------------
 {
-# µ¥ÀÌÅÍ¸¦ ºÒ·¯¿É´Ï´Ù.
-dat <- read.csv("ÃæÃ»³²µµ landuse importance.csv", na="-", fileEncoding = "CP949", encoding = "UTF-8")
+# ë°ì´í„°ë¥¼ ë¶ˆëŸ¬ì˜µë‹ˆë‹¤.
+dat <- read.csv("ì¶©ì²­ë‚¨ë„ landuse importance.csv", na="-", fileEncoding = "CP949", encoding = "UTF-8")
 str(dat)
-# µ¥ÀÌÅÍ¸¦ 0¿¡¼­ 1 »çÀÌ·Î ½ºÄÉÀÏ¸µÇÕ´Ï´Ù.
+# ë°ì´í„°ë¥¼ 0ì—ì„œ 1 ì‚¬ì´ë¡œ ìŠ¤ì¼€ì¼ë§í•©ë‹ˆë‹¤.
 data <- sapply(dat[c(2:9)], rescale, to = c(0, 1))
 data <- as.data.frame(data)
 
-# ½ºÄÉÀÏ¸µµÈ µ¥ÀÌÅÍ¸¦ ¿ø·¡ÀÇ µ¥ÀÌÅÍ ÇÁ·¹ÀÓ¿¡ Ãß°¡ÇÕ´Ï´Ù.
+# ìŠ¤ì¼€ì¼ë§ëœ ë°ì´í„°ë¥¼ ì›ë˜ì˜ ë°ì´í„° í”„ë ˆì„ì— ì¶”ê°€í•©ë‹ˆë‹¤.
 dat <- cbind(dat[c(1)], data)
 
-# ½ºÄÉÀÏ¸µÀÌ Àß µÇ¾ú´ÂÁö È®ÀÎÇÕ´Ï´Ù.
+# ìŠ¤ì¼€ì¼ë§ì´ ì˜ ë˜ì—ˆëŠ”ì§€ í™•ì¸í•©ë‹ˆë‹¤.
 summary(dat$Al)
 summary(dat$F)
 
-# ½ºÄÉÀÏ¸µµÈ µ¥ÀÌÅÍ¸¦ Ãâ·ÂÇÕ´Ï´Ù.
+# ìŠ¤ì¼€ì¼ë§ëœ ë°ì´í„°ë¥¼ ì¶œë ¥í•©ë‹ˆë‹¤.
 head(dat)
 }
 #===============================================================================
 #Statistical summary
 {
-  setwd("D:/jaeuk/´ëÇĞ¿ø/¿¬±¸/2023 ¾È½ÉÁöÇÏ¼ö/R_¾È½ÉÁöÇÏ¼ö2023")
-  x <- read.csv("ÃæÃ»³²µµ ÀüÃ¼(landuse Æ÷ÇÔ)(1).csv", na="-", fileEncoding = "CP949", encoding = "UTF-8")
+  setwd("D:/jaeuk/ëŒ€í•™ì›/ì—°êµ¬/2023 ì•ˆì‹¬ì§€í•˜ìˆ˜/R_ì•ˆì‹¬ì§€í•˜ìˆ˜2023")
+  x <- read.csv("ì¶©ì²­ë‚¨ë„ ì „ì²´(landuse í¬í•¨)(1).csv", na="-", fileEncoding = "CP949", encoding = "UTF-8")
   str(x)
   {
     x$No. = as.numeric(x$No.)
