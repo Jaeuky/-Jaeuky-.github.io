@@ -73,7 +73,7 @@
   library(boot)
   library(AugmenterR)
 }
-setwd("D:/jaeuk/Mediwhale 코딩 과제/R_mediwhale")
+setwd("D:/jaeuk/R")
 sa = read.csv("samadult.csv", na="-", fileEncoding = "CP949", encoding = "UTF-8")
 
 #sa에서 사용할 컬럼 -> 1,3 -> FPX, HHX, 
